@@ -29,6 +29,7 @@
   --accent: #2941db;
   --accent-hover: #1f35c7;
   --accent-text: #2438c4;
+  --accent-contrast: #ffffff;
   --accent-glow: rgba(41, 65, 219, 0.22);
 
   /* Layered Luminous Rule — light theme: soft ambient shadow. */
@@ -68,6 +69,7 @@
     --accent: #7d96ff;
     --accent-hover: #93a8ff;
     --accent-text: #7d96ff;
+    --accent-contrast: #0d1016;
     --accent-glow: rgba(125, 150, 255, 0.22);
 
     /* Layered Luminous Rule — dark theme: hairline rim + ambient depth + top light. */
