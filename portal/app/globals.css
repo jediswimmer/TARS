@@ -1,7 +1,14 @@
 @import "tailwindcss";
 
-/* Semantic colors (consistent across light/dark) + theme surfaces (flip with the OS theme). */
+/*
+  TARS "Flight Director's Console" foundation tokens.
+
+  Two-register system: severity colors are semantic constants shared across
+  both themes; surfaces, ink, and the electric-cobalt accent flip with the
+  OS theme (system-follow via prefers-color-scheme — no manual toggle).
+*/
 :root {
+  /* Severity — sacred values, consumed by charts, pills, and contracts. */
   --color-crit: #e5484d;
   --color-high: #f76808;
   --color-med: #ffb224;
@@ -10,39 +17,108 @@
   --color-pos: #46a758;
   --color-neg: #e5484d;
 
-  --bg: #f6f7f9;
+  /* Light console — cool neutrals, faintly tinted toward the cobalt hue. */
+  --bg: #f5f6f8;
   --panel: #ffffff;
-  --ink: #17191c;
-  --muted: #6b7280;
-  --line: #e6e8ec;
-  --accent: #3b82f6;
-  --shadow: 0 1px 2px rgba(16, 24, 40, 0.06), 0 1px 3px rgba(16, 24, 40, 0.1);
+  --panel-elevated: #ffffff;
+  --ink: #14161a;
+  --muted: #5c6470;
+  --line: #e5e7ec;
+
+  /* Electric cobalt accent. --accent-text is the text-safe variant. */
+  --accent: #2941db;
+  --accent-hover: #1f35c7;
+  --accent-text: #2438c4;
+  --accent-glow: rgba(41, 65, 219, 0.22);
+
+  /* Layered Luminous Rule — light theme: soft ambient shadow. */
+  --shadow: 0 1px 2px rgba(20, 26, 60, 0.05), 0 2px 8px rgba(20, 26, 60, 0.07);
+  --glow-accent: 0 0 0 1px var(--accent-glow), 0 0 16px var(--accent-glow);
+  --glow-crit: 0 0 0 1px rgba(229, 72, 77, 0.22), 0 0 16px rgba(229, 72, 77, 0.22);
+
+  /* Console typography — wired to the next/font variables set on <html>. */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, "SF Mono", SFMono-Regular, Menlo, monospace;
+
+  /* Semantic z-index scale. */
+  --z-dropdown: 10;
+  --z-sticky: 20;
+  --z-modal-backdrop: 30;
+  --z-modal: 40;
+  --z-toast: 50;
+  --z-tooltip: 60;
+
+  /* Motion. */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast: 150ms;
+  --dur-med: 220ms;
 }
+
 @media (prefers-color-scheme: dark) {
   :root {
+    /* Mission-night console. */
     --bg: #0d1016;
     --panel: #151a21;
-    --ink: #e6e8ec;
+    --panel-elevated: #1a2029;
+    --ink: #e8ebf0;
     --muted: #9aa1ac;
     --line: #242a33;
-    --accent: #5b9dff;
-    --shadow: none;
+
+    /* Luminous cobalt — brighter so it reads as light, not pigment. */
+    --accent: #7d96ff;
+    --accent-hover: #93a8ff;
+    --accent-text: #7d96ff;
+    --accent-glow: rgba(125, 150, 255, 0.22);
+
+    /* Layered Luminous Rule — dark theme: hairline rim + ambient depth + top light. */
+    --shadow: 0 0 0 1px rgba(125, 150, 255, 0.06), 0 8px 24px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.04);
   }
 }
 
-html,
-body {
+/*
+  Background lives on <html> only: the AmbientBackdrop sits at a negative
+  z-index inside <body>, and a body background would paint over it.
+*/
+html {
   background: var(--bg);
   color: var(--ink);
 }
-.card {
-  background: var(--panel);
-  border: 1px solid var(--line);
-  box-shadow: var(--shadow);
+body {
+  font-family: var(--font-sans);
+  font-kerning: normal;
+  font-optical-sizing: auto;
 }
-.muted {
-  color: var(--muted);
+
+/*
+  Helpers live in the components layer so Tailwind utilities on the same
+  element (rounded-2xl, border-t, …) still win where they are explicit.
+*/
+@layer components {
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+  }
+  .muted {
+    color: var(--muted);
+  }
+  .divide-line {
+    border-color: var(--line);
+  }
+  .telemetry {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
 }
-.divide-line {
-  border-color: var(--line);
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
