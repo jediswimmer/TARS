@@ -11,10 +11,23 @@
   "scripts": {
     "typecheck": "pnpm -r --if-present run typecheck",
     "build": "pnpm -r --if-present run build",
-    "test": "pnpm -r --if-present run test",
+    "test": "node --import tsx --test tests/*.test.ts",
     "lint": "pnpm -r --if-present run lint",
     "pipeline:azure": "pnpm --filter @tars/orchestrator run azure-security",
-    "demo": "pnpm --filter @tars/orchestrator run demo"
+    "bakeoff": "pnpm --filter @tars/orchestrator run bakeoff",
+    "demo": "pnpm --filter @tars/orchestrator run demo",
+    "portal": "pnpm --filter @tars/portal run dev"
+  },
+  "devDependencies": {
+    "@tars/agents": "workspace:*",
+    "@tars/connectors": "workspace:*",
+    "@tars/contracts": "workspace:*",
+    "@tars/core": "workspace:*",
+    "@tars/evals": "workspace:*",
+    "@tars/orchestrator": "workspace:*",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0",
+    "zod": "^4.4.3"
   },
   "keywords": [
     "msp",

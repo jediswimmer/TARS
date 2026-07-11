@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+/* Semantic colors (consistent across light/dark) + theme surfaces (flip with the OS theme). */
+:root {
+  --color-crit: #e5484d;
+  --color-high: #f76808;
+  --color-med: #ffb224;
+  --color-low: #46a758;
+  --color-info: #8b8d98;
+  --color-pos: #46a758;
+  --color-neg: #e5484d;
+
+  --bg: #f6f7f9;
+  --panel: #ffffff;
+  --ink: #17191c;
+  --muted: #6b7280;
+  --line: #e6e8ec;
+  --accent: #3b82f6;
+  --shadow: 0 1px 2px rgba(16, 24, 40, 0.06), 0 1px 3px rgba(16, 24, 40, 0.1);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0d1016;
+    --panel: #151a21;
+    --ink: #e6e8ec;
+    --muted: #9aa1ac;
+    --line: #242a33;
+    --accent: #5b9dff;
+    --shadow: none;
+  }
+}
+
+html,
+body {
+  background: var(--bg);
+  color: var(--ink);
+}
+.card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+}
+.muted {
+  color: var(--muted);
+}
+.divide-line {
+  border-color: var(--line);
+}

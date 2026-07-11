@@ -31,16 +31,17 @@ compared apples-to-apples.
 ```
 TARS/
 ├── platform/                  # the provider-agnostic spine
-│   ├── contracts/   (@tars/contracts)    artifact schemas + agent/port interfaces
+│   ├── contracts/   (@tars/contracts)    Zod 4 artifact schemas + agent/port interfaces
+│   ├── agents/      (@tars/agents)       the shared fleet: 6 agents + prompts, per-provider
 │   ├── core/        (@tars/core)         BaseAgent, artifact store, registry, logging
 │   ├── connectors/  (@tars/connectors)   Azure (+ future M365/RMM) → normalized snapshot
-│   ├── orchestrator/(@tars/orchestrator) pipeline runner + scheduler + offline replay
+│   ├── orchestrator/(@tars/orchestrator) pipeline runner + scheduler + replay + bake-off
 │   └── evals/       (@tars/evals)        cross-provider bake-off harness
-├── providers/
-│   ├── claude/      (@tars/provider-claude)  reference fleet (Anthropic SDK)
-│   ├── grok/        (@tars/provider-grok)    xAI fleet (Phase 2 seam)
-│   └── sol/         (@tars/provider-sol)     OpenAI fleet (Phase 2 seam)
-├── portal/          (@tars/portal)       customer portal + main dashboard (+ mockup)
+├── providers/                 # thin adapters — one LlmProvider each, no agent logic
+│   ├── claude/      (@tars/provider-claude)  Anthropic SDK (messages.parse + zodOutputFormat)
+│   ├── grok/        (@tars/provider-grok)    xAI, OpenAI-compatible (chat.completions.parse)
+│   └── sol/         (@tars/provider-sol)     OpenAI Responses API (responses.parse)
+├── portal/          (@tars/portal)       Next.js 16 dashboard (RBAC, Recharts, chat)
 └── docs/                                  this plan
 ```
 

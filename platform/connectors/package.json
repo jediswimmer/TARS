@@ -12,11 +12,15 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@tars/contracts": "workspace:*"
+    "@tars/contracts": "workspace:*",
+    "@azure/identity": "^4.13.1",
+    "@azure/arm-resourcegraph": "^4.2.1",
+    "@azure/arm-security": "^5.0.0",
+    "@microsoft/microsoft-graph-client": "^3.0.7"
   },
   "devDependencies": {
+    "@microsoft/microsoft-graph-types": "^2.40.0",
     "@types/node": "^20.14.0",
     "typescript": "^5.6.0"
-  },
-  "//live-deps": "When implementing LiveAzureConnector, add: @azure/identity, @azure/arm-resourcegraph, @microsoft/microsoft-graph-client, @azure/arm-security"
+  }
 }

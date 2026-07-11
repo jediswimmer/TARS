@@ -4,7 +4,7 @@ Every agent is small, single-purpose, scheduled, and defined by an
 `AgentDefinition` (`platform/contracts/src/agent.ts`). This is the starting
 fleet — the Azure security workflow — and the recipe for growing it.
 
-## The Azure security fleet (implemented for Claude)
+## The Azure security fleet (shared; runs on all three providers)
 
 | Agent | id | consumes | produces | schedule | Role |
 |---|---|---|---|---|---|
@@ -22,7 +22,9 @@ framing and depth.
 
 ## How an agent is built
 
-A provider agent extends `BaseAgent<Body>` and implements `produce(ctx)`:
+Agents live in the shared `@tars/agents` package, extend `BaseAgent<Body>`, take
+`{ provider, prompts? }` in their constructor (so the same class runs for any
+provider), and implement `produce(ctx)`:
 
 ```ts
 export class AzureSecurityScanner extends BaseAgent<ScanFindingsBody> {
@@ -49,10 +51,10 @@ persists it. The agent never touches the Anthropic SDK, the store, or scheduling
 
 1. If it introduces a new artifact type, add its schema to
    `platform/contracts/src/artifacts/` and to the `ArtifactKind` enum.
-2. Implement `produce()` in the provider folder; write its system prompt.
-3. Register it in the provider's `register…Fleet()`.
-4. Add its id to the relevant pipeline in
-   `platform/orchestrator/src/pipelines/`.
+2. Add the agent class + default prompt to `platform/agents/src/` (it works for
+   all three providers at once).
+3. Add it to `createAzureFleet()` (or a new fleet) in `platform/agents/src/fleet.ts`.
+4. Add its id to the relevant pipeline stage list (e.g. `AZURE_SECURITY_PIPELINE`).
 
 That's the whole loop. The fleet is designed to expand indefinitely — future
 agents: Microsoft 365 / Intune posture, endpoint/RMM health, backup-verification,

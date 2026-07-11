@@ -2,57 +2,55 @@
 
 How we execute, in order. Each phase is shippable on its own.
 
-## Phase 0 — Foundation ✅ (this session)
+## Phase 0 — Foundation ✅
 
-- Monorepo + shared spine: `contracts`, `core`, `connectors`, `orchestrator`, `evals`.
-- Full data contracts (Zod) for the Azure workflow, end to end.
-- Reference fleet on **Claude**: scanner → reviewer → report → exec/technical
-  views → notifications, plus the interactive customer-service agent.
-- `grok` / `sol` provider folders with the port seam + porting recipe.
-- Offline replay so the whole pipeline runs with **no credentials**
-  (`pnpm demo`).
-- Dashboard mockup realizing the checkbox → hero drill-down interaction.
-- This plan (architecture, fleet, contracts, comparison, ADRs).
+- Monorepo + shared spine on current standards (TypeScript, **Zod 4**).
+- Full data contracts for the Azure workflow, end to end.
+- Reference fleet on Claude, offline-runnable pipeline, dashboard mockup, the plan.
 
-## Phase 1 — Make Claude real end-to-end
+## Phase 1 — Built right ✅ (this milestone)
 
-- Run the pipeline live against the fixture tenant with a real key
-  (`TARS_MODE=live pnpm pipeline:azure`) and tune the six system prompts.
-- `LiveAzureConnector`: implement the Resource Graph / Microsoft Graph / Defender
-  queries behind a read-only SP (seam in `azure/client.ts`).
-- Add unit tests for the contracts + a golden-artifact test per stage.
+- **Shared `@tars/agents` fleet**: the six agents + prompts, parameterized by
+  provider with optional per-model prompt overrides. No triplication.
+- **Three real provider adapters** with genuine structured outputs:
+  - Claude — `messages.parse` + `zodOutputFormat`, adaptive thinking.
+  - Grok — xAI (OpenAI-compatible) `chat.completions.parse` + `zodResponseFormat`.
+  - Sol — OpenAI Responses API `responses.parse` + `zodTextFormat`.
+- **Executable bake-off** (`pnpm bakeoff`) across all three, scored on the rubric.
+- **Live Azure connector** (read-only): Resource Graph + Microsoft Graph (users/MFA/
+  roles) + Defender assessments, mapped into the snapshot, with least-privilege
+  graceful degradation.
+- **Next.js 16 portal**: RBAC role switch, exec/technical dashboards, notification
+  drill-down with Recharts, and an RBAC-scoped customer-service chat.
+- **Tests + CI**: contract schema tests, eval-ranking test, pipeline-lineage test;
+  a CI workflow that typechecks, tests, smoke-runs the pipeline, and builds the portal.
+
+## Phase 2 — Live tenant & real comparison (next)
+
+- Run the pipeline live against a real Azure tenant via `LiveAzureConnector` (wire
+  the read-only service principal; the SDK calls are implemented).
+- Tune the six prompts per model; add golden-baseline scoring for the fixture.
+- Implement the LLM-judge for `reportQuality` (`compareRuns(..., { judgeScores })`)
+  and publish the first head-to-head comparison report.
 - Wire a real scheduler (Azure Container Apps Jobs or Inngest) off the agents'
   `schedule` fields.
 
-## Phase 2 — The bake-off
+## Phase 3 — Productionize the portal
 
-- Implement `GrokProvider` and `SolProvider` (`complete()` against their
-  structured-output APIs).
-- Port the agents into `providers/grok` and `providers/sol`; tune per model.
-- Build a golden baseline for the fixture tenant (known findings + severities).
-- Implement the LLM-judge for `reportQuality`; produce the first comparison
-  report (a meta-dashboard of provider-vs-provider on the rubric).
-
-## Phase 3 — The portal
-
-- Stand up the Next.js app from `portal/` (App Router + Tailwind + shadcn +
-  Recharts), importing `@tars/contracts` types.
-- Main dashboard: infographic KPIs, priority-ordered notification list with
-  checkboxes, live drill-down with a hero visualization (per the mockup).
-- RBAC-gated routes; role resolution via the MSP's IdP.
-- Wire the customer-service chat to `CustomerServiceAgent` with RBAC-scoped
-  retrieval.
+- Real IdP for role resolution (NextAuth / the MSP's IdP) replacing the role switch.
+- Point the portal at a persistent `ArtifactStore` (Postgres/Blob) instead of the
+  bundled sample; proxy the chat to the agent backend.
+- Multi-customer routing + per-customer config.
 
 ## Phase 4 — Expand the fleet
 
 Add the next scheduled agents behind the same contract, each a small PR:
-Microsoft 365 / Intune posture, endpoint & RMM health, backup verification,
-patch compliance, cost optimization, SLA / ticket summaries, customer
-onboarding. Multi-customer scale-out + per-customer config.
+Microsoft 365 / Intune posture, endpoint & RMM health, backup verification, patch
+compliance, cost optimization, SLA / ticket summaries, customer onboarding.
 
 ## Guardrails carried through every phase
 
 - Read-only Azure access; secrets never in artifacts or prompts.
 - Every bounded run (`top-N`, no-retry, sampling) logs what it dropped.
-- Findings are verified before they reach a customer (the reviewer stage exists
-  for exactly this) — no unreviewed model output in a customer-facing report.
+- No unreviewed model output reaches a customer-facing report — the reviewer stage
+  exists for exactly this.

@@ -68,14 +68,17 @@ ranking.
 - **Blind the judge.** The `reportQuality` judge sees the reports without
   provider labels.
 
-## Porting Grok / Sol
+## The three adapters (all implemented)
 
-Both are OpenAI-API-compatible surfaces:
+The agents are shared (`@tars/agents`); each provider is a thin adapter that
+implements `LlmProvider.complete()` with that vendor's structured-output API and
+registers the shared fleet under its name:
 
-- **Grok (xAI):** `openai` client with `baseURL: https://api.x.ai/v1` + `XAI_API_KEY`.
-- **Sol (OpenAI):** `openai` client, Responses API + `zodResponseFormat`.
+- **Claude** — Anthropic SDK `messages.parse` + `zodOutputFormat`, adaptive thinking.
+- **Grok (xAI)** — `openai` client at `baseURL https://api.x.ai/v1` (`XAI_API_KEY`),
+  `chat.completions.parse` + `zodResponseFormat`.
+- **Sol (OpenAI)** — `openai` client, Responses API `responses.parse` + `zodTextFormat`.
 
-The recipe is in each provider's `src/provider.ts`. Implement `complete()`
-against the vendor's structured-output API, copy the Claude agents into the
-provider's `agents/` (retarget `provider`), tune the prompts, and register the
-fleet. Then it's in the bake-off.
+Per-model prompt tuning is the "whole-approach" arm: pass a `FleetPrompts` override
+into `registerAzureFleet(registry, provider, prompts)` (or the provider's
+`register…Fleet`) without touching the shared agent logic.
