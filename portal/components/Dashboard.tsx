@@ -1,8 +1,9 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import type { Notification, Role } from "@tars/contracts";
-import { COMPLIANCE, EXEC_METRICS, EXEC_NARRATIVE, NOTIFICATIONS, RISK_SCORE, ROLES, SEVERITY_COLOR, SEVERITY_COUNTS, TECH, TECH_METRICS, TECH_NARRATIVE } from "../lib/sample";
+import { useMemo, useState, type ReactNode } from "react";
+import type { HeadlineMetric, Notification, Role } from "@tars/contracts";
+import { COMPLIANCE, EXEC_METRICS, EXEC_NARRATIVE, NOTIFICATIONS, RISK_SCORE, ROLES, SCAN_TIME, SEVERITY_COLOR, SEVERITY_COUNTS, SEVERITY_TEXT_COLOR, TECH, TECH_METRICS, TECH_NARRATIVE } from "../lib/sample";
+import { BrandMark } from "./BrandMark";
 import { RiskGauge, SeverityDonut } from "./Charts";
 import { Chat } from "./Chat";
 import { AttackChainGraph } from "./viz/AttackChainGraph";
