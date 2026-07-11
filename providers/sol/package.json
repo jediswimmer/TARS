@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "OpenAI (Sol) implementation of the TARS agent fleet. Mirrors provider-claude; port the LlmProvider + prompts here.",
+  "description": "OpenAI (Sol) implementation of the TARS agent fleet. Adapter over the OpenAI Responses API; reuses the shared @tars/agents fleet.",
   "main": "./src/index.ts",
   "types": "./src/index.ts",
   "exports": { ".": "./src/index.ts" },
@@ -14,11 +14,12 @@
   "dependencies": {
     "@tars/contracts": "workspace:*",
     "@tars/core": "workspace:*",
-    "zod": "^3.23.8"
+    "@tars/agents": "workspace:*",
+    "openai": "^6.46.0",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@types/node": "^20.14.0",
     "typescript": "^5.6.0"
-  },
-  "//impl-note": "When implementing, add `openai` and use the Responses API with structured outputs (zodResponseFormat) + OPENAI_API_KEY."
+  }
 }

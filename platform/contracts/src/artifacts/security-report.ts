@@ -23,7 +23,7 @@ export type ReportSection = z.infer<typeof ReportSection>;
  */
 export const SecurityReportBody = z.object({
   customer: z.object({ id: z.string(), name: z.string() }),
-  period: z.object({ from: z.string().datetime(), to: z.string().datetime() }),
+  period: z.object({ from: z.iso.datetime(), to: z.iso.datetime() }),
   scope: z.string(),
   executiveSummary: z.string(),
   riskPosture: z.object({

@@ -1,14 +1,11 @@
-// @tars/provider-sol — mirrors @tars/provider-claude. Port the fleet here to
-// enter Sol (OpenAI) in the bake-off. Until the agents are ported, the fleet is empty.
+// @tars/provider-sol — the OpenAI adapter + fleet registration. Agents are shared
+// (@tars/agents); this package supplies the LlmProvider and wires the fleet as "sol".
 import type { AgentRegistry } from "@tars/core";
+import { registerAzureFleet, type FleetPrompts } from "@tars/agents";
 
 export { SolProvider } from "./provider.js";
 
-/**
- * Register the Sol fleet. TODO(phase-2): copy providers/claude/src/agents into
- * providers/sol/src/agents, retarget `provider: "sol"`, tune prompts for Sol,
- * and register them here — exactly as the Claude fleet is registered.
- */
-export function registerSolFleet(registry: AgentRegistry): AgentRegistry {
-  return registry;
+/** Register the Azure fleet on Sol. Pass prompt overrides to tune for Sol. */
+export function registerSolFleet(registry: AgentRegistry, prompts?: FleetPrompts): AgentRegistry {
+  return registerAzureFleet(registry, "sol", prompts);
 }

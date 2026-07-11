@@ -1,14 +1,11 @@
-// @tars/provider-grok — mirrors @tars/provider-claude. Port the fleet here to
-// enter Grok in the bake-off. Until the agents are ported, the fleet is empty.
+// @tars/provider-grok — the xAI adapter + fleet registration. Agents are shared
+// (@tars/agents); this package supplies the LlmProvider and wires the fleet as "grok".
 import type { AgentRegistry } from "@tars/core";
+import { registerAzureFleet, type FleetPrompts } from "@tars/agents";
 
 export { GrokProvider } from "./provider.js";
 
-/**
- * Register the Grok fleet. TODO(phase-2): copy providers/claude/src/agents into
- * providers/grok/src/agents, retarget `provider: "grok"`, tune prompts for Grok,
- * and register them here — exactly as the Claude fleet is registered.
- */
-export function registerGrokFleet(registry: AgentRegistry): AgentRegistry {
-  return registry;
+/** Register the Azure fleet on Grok. Pass prompt overrides to tune for Grok. */
+export function registerGrokFleet(registry: AgentRegistry, prompts?: FleetPrompts): AgentRegistry {
+  return registerAzureFleet(registry, "grok", prompts);
 }

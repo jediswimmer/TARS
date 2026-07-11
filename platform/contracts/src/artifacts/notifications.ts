@@ -11,7 +11,7 @@ import { Role } from "../rbac.js";
  */
 export const Notification = z.object({
   id: z.string(),
-  createdAt: z.string().datetime(),
+  createdAt: z.iso.datetime(),
   severity: Severity,
   /** 0–100 ranking used to order the list + decide what gets promoted to the hero slot. */
   priority: z.number().min(0).max(100),
@@ -29,7 +29,7 @@ export type Notification = z.infer<typeof Notification>;
 
 export const NotificationsBody = z.object({
   customerId: z.string(),
-  generatedAt: z.string().datetime(),
+  generatedAt: z.iso.datetime(),
   items: z.array(Notification),
 });
 export type NotificationsBody = z.infer<typeof NotificationsBody>;

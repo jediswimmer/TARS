@@ -49,8 +49,8 @@ export interface AgentContext {
 
 export interface AgentResult<T = unknown> {
   artifact: Artifact<ArtifactKind, T>;
-  /** Aggregated token usage for this agent's run — feeds the cost comparison. */
-  usage?: { inputTokens: number; outputTokens: number; costUsd?: number };
+  /** Aggregated token usage for this agent's run — feeds the cost + latency comparison. */
+  usage?: { inputTokens: number; outputTokens: number; costUsd?: number; latencyMs?: number };
 }
 
 /**

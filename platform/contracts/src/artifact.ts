@@ -35,7 +35,7 @@ export const ArtifactEnvelope = z.object({
   customerId: z.string(),
   runId: z.string(),
   producedBy: Provenance,
-  createdAt: z.string().datetime(),
+  createdAt: z.iso.datetime(),
   /** Artifact ids this one was derived from (its inputs). Builds the lineage graph. */
   inputs: z.array(z.string()).default([]),
 });

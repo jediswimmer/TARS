@@ -39,7 +39,7 @@ export const ScanFinding = z.object({
   /** Adversarial POV: how an attacker would abuse this. The reviewer builds on this. */
   attackNarrative: z.string().optional(),
   frameworks: z.array(FrameworkReference),
-  discoveredAt: z.string().datetime(),
+  discoveredAt: z.iso.datetime(),
 });
 export type ScanFinding = z.infer<typeof ScanFinding>;
 
@@ -47,8 +47,8 @@ export const ScanFindingsBody = z.object({
   scope: z.object({
     tenantId: z.string(),
     subscriptionIds: z.array(z.string()),
-    startedAt: z.string().datetime(),
-    completedAt: z.string().datetime(),
+    startedAt: z.iso.datetime(),
+    completedAt: z.iso.datetime(),
   }),
   summary: z.object({
     total: z.number().int().nonnegative(),

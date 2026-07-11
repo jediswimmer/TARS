@@ -26,7 +26,7 @@ export interface StepResult {
   agentId: string;
   artifactId: string;
   kind: ArtifactKind;
-  usage?: { inputTokens: number; outputTokens: number; costUsd?: number };
+  usage?: { inputTokens: number; outputTokens: number; costUsd?: number; latencyMs?: number };
 }
 
 export interface PipelineResult {

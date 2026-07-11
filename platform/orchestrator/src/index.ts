@@ -3,5 +3,5 @@
 export * from "./pipeline.js";
 export * from "./scheduler.js";
 export * from "./replay-provider.js";
-export { AZURE_SECURITY_PIPELINE } from "./pipelines/azure-security.js";
+export { AZURE_SECURITY_PIPELINE } from "@tars/agents";
 export { CANNED_CLAUDE_RUN } from "./fixtures/canned-claude-run.js";

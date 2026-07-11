@@ -11,16 +11,19 @@
     "typecheck": "tsc --noEmit",
     "build": "tsc",
     "demo": "tsx src/demo.ts",
-    "azure-security": "tsx src/run.ts azure-security"
+    "azure-security": "tsx src/run.ts azure-security",
+    "bakeoff": "tsx src/bakeoff.ts"
   },
   "dependencies": {
     "@tars/contracts": "workspace:*",
     "@tars/core": "workspace:*",
+    "@tars/agents": "workspace:*",
     "@tars/connectors": "workspace:*",
+    "@tars/evals": "workspace:*",
     "@tars/provider-claude": "workspace:*",
     "@tars/provider-grok": "workspace:*",
     "@tars/provider-sol": "workspace:*",
-    "zod": "^3.23.8"
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@types/node": "^20.14.0",

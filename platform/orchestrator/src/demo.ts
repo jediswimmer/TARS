@@ -2,8 +2,8 @@ import type { NotificationsBody, ReviewedFindingsBody, ScanFindingsBody } from "
 import { FileArtifactStore, registry } from "@tars/core";
 import { FixtureAzureConnector } from "@tars/connectors";
 import { registerClaudeFleet } from "@tars/provider-claude";
+import { AZURE_SECURITY_PIPELINE } from "@tars/agents";
 import { runPipeline } from "./pipeline.js";
-import { AZURE_SECURITY_PIPELINE } from "./pipelines/azure-security.js";
 import { ReplayProvider } from "./replay-provider.js";
 import { CANNED_CLAUDE_RUN } from "./fixtures/canned-claude-run.js";
 

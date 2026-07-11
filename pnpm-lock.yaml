@@ -8,6 +8,28 @@ importers:
 
   .: {}
 
+  platform/agents:
+    dependencies:
+      '@tars/connectors':
+        specifier: workspace:*
+        version: link:../connectors
+      '@tars/contracts':
+        specifier: workspace:*
+        version: link:../contracts
+      '@tars/core':
+        specifier: workspace:*
+        version: link:../core
+      zod:
+        specifier: ^4.4.3
+        version: 4.4.3
+    devDependencies:
+      '@types/node':
+        specifier: ^20.14.0
+        version: 20.19.43
+      typescript:
+        specifier: ^5.6.0
+        version: 5.9.3
+
   platform/connectors:
     dependencies:
       '@tars/contracts':
@@ -24,8 +46,8 @@ importers:
   platform/contracts:
     dependencies:
       zod:
-        specifier: ^3.23.8
-        version: 3.25.76
+        specifier: ^4.4.3
+        version: 4.4.3
     devDependencies:
       typescript:
         specifier: ^5.6.0
@@ -37,8 +59,8 @@ importers:
         specifier: workspace:*
         version: link:../contracts
       zod:
-        specifier: ^3.23.8
-        version: 3.25.76
+        specifier: ^4.4.3
+        version: 4.4.3
     devDependencies:
       '@types/node':
         specifier: ^20.14.0
@@ -62,6 +84,9 @@ importers:
 
   platform/orchestrator:
     dependencies:
+      '@tars/agents':
+        specifier: workspace:*
+        version: link:../agents
       '@tars/connectors':
         specifier: workspace:*
         version: link:../connectors
@@ -71,6 +96,9 @@ importers:
       '@tars/core':
         specifier: workspace:*
         version: link:../core
+      '@tars/evals':
+        specifier: workspace:*
+        version: link:../evals
       '@tars/provider-claude':
         specifier: workspace:*
         version: link:../../providers/claude
@@ -81,8 +109,8 @@ importers:
         specifier: workspace:*
         version: link:../../providers/sol
       zod:
-        specifier: ^3.23.8
-        version: 3.25.76
+        specifier: ^4.4.3
+        version: 4.4.3
     devDependencies:
       '@types/node':
         specifier: ^20.14.0
@@ -100,10 +128,10 @@ importers:
     dependencies:
       '@anthropic-ai/sdk':
         specifier: ^0.111.0
-        version: 0.111.0(zod@3.25.76)
-      '@tars/connectors':
+        version: 0.111.0(zod@4.4.3)
+      '@tars/agents':
         specifier: workspace:*
-        version: link:../../platform/connectors
+        version: link:../../platform/agents
       '@tars/contracts':
         specifier: workspace:*
         version: link:../../platform/contracts
@@ -111,8 +139,8 @@ importers:
         specifier: workspace:*
         version: link:../../platform/core
       zod:
-        specifier: ^3.23.8
-        version: 3.25.76
+        specifier: ^4.4.3
+        version: 4.4.3
     devDependencies:
       '@types/node':
         specifier: ^20.14.0
@@ -123,15 +151,21 @@ importers:
 
   providers/grok:
     dependencies:
+      '@tars/agents':
+        specifier: workspace:*
+        version: link:../../platform/agents
       '@tars/contracts':
         specifier: workspace:*
         version: link:../../platform/contracts
       '@tars/core':
         specifier: workspace:*
         version: link:../../platform/core
+      openai:
+        specifier: ^6.46.0
+        version: 6.46.0(zod@4.4.3)
       zod:
-        specifier: ^3.23.8
-        version: 3.25.76
+        specifier: ^4.4.3
+        version: 4.4.3
     devDependencies:
       '@types/node':
         specifier: ^20.14.0
@@ -142,15 +176,21 @@ importers:
 
   providers/sol:
     dependencies:
+      '@tars/agents':
+        specifier: workspace:*
+        version: link:../../platform/agents
       '@tars/contracts':
         specifier: workspace:*
         version: link:../../platform/contracts
       '@tars/core':
         specifier: workspace:*
         version: link:../../platform/core
+      openai:
+        specifier: ^6.46.0
+        version: 6.46.0(zod@4.4.3)
       zod:
-        specifier: ^3.23.8
-        version: 3.25.76
+        specifier: ^4.4.3
+        version: 4.4.3
     devDependencies:
       '@types/node':
         specifier: ^20.14.0
@@ -353,6 +393,26 @@ packages:
     resolution: {integrity: sha512-+DWg8jCJG2TEnpy7kOm/7/AxaYoaRbjVB4LFZLySZlWn8exGs3A4OLJR966cVvU26N7X9TWxl+Jsw7dzAqKT6g==}
     engines: {node: '>=16'}
 
+  openai@6.46.0:
+    resolution: {integrity: sha512-DFg6jEPT2RO+oAyXtddeUJU8zkGy1OQ1AjGzNIJUMQG03TTqvCpy9tBpQ+2VVVnvrl3E56F8GEin2JYtWpITtA==}
+    peerDependencies:
+      '@aws-sdk/credential-provider-node': '>=3.972.0 <4'
+      '@smithy/hash-node': '>=4.3.0 <5'
+      '@smithy/signature-v4': '>=5.4.0 <6'
+      ws: ^8.18.0
+      zod: ^3.25 || ^4.0
+    peerDependenciesMeta:
+      '@aws-sdk/credential-provider-node':
+        optional: true
+      '@smithy/hash-node':
+        optional: true
+      '@smithy/signature-v4':
+        optional: true
+      ws:
+        optional: true
+      zod:
+        optional: true
+
   standardwebhooks@1.0.0:
     resolution: {integrity: sha512-BbHGOQK9olHPMvQNHWul6MYlrRTAOKn03rOe4A8O3CLWhNf4YHBqq2HJKKC+sfqpxiBY52pNeesD6jIiLDz8jg==}
 
@@ -372,17 +432,17 @@ packages:
   undici-types@6.21.0:
     resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
 
-  zod@3.25.76:
-    resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
+  zod@4.4.3:
+    resolution: {integrity: sha512-ytENFjIJFl2UwYglde2jchW2Hwm4GJFLDiSXWdTrJQBIN9Fcyp7n4DhxJEiWNAJMV1/BqWfW/kkg71UDcHJyTQ==}
 
 snapshots:
 
-  '@anthropic-ai/sdk@0.111.0(zod@3.25.76)':
+  '@anthropic-ai/sdk@0.111.0(zod@4.4.3)':
     dependencies:
       json-schema-to-ts: 3.1.1
       standardwebhooks: 1.0.0
     optionalDependencies:
-      zod: 3.25.76
+      zod: 4.4.3
 
   '@babel/runtime@7.29.7': {}
 
@@ -509,6 +569,10 @@ snapshots:
       '@babel/runtime': 7.29.7
       ts-algebra: 2.0.0
 
+  openai@6.46.0(zod@4.4.3):
+    optionalDependencies:
+      zod: 4.4.3
+
   standardwebhooks@1.0.0:
     dependencies:
       '@stablelib/base64': 1.0.1
@@ -526,4 +590,4 @@ snapshots:
 
   undici-types@6.21.0: {}
 
-  zod@3.25.76: {}
+  zod@4.4.3: {}

@@ -14,9 +14,9 @@
   "dependencies": {
     "@tars/contracts": "workspace:*",
     "@tars/core": "workspace:*",
-    "@tars/connectors": "workspace:*",
+    "@tars/agents": "workspace:*",
     "@anthropic-ai/sdk": "^0.111.0",
-    "zod": "^3.23.8"
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@types/node": "^20.14.0",
