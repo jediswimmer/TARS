@@ -1,86 +1,19 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import {
-  forceCenter,
-  forceCollide,
-  forceLink,
-  forceManyBody,
-  forceSimulation,
-  forceX,
-  forceY,
-  type SimulationLinkDatum,
-  type SimulationNodeDatum,
-} from "d3-force";
 import { SEVERITY_COLOR } from "../../lib/sample";
 import { VIZ_FINDINGS } from "../../lib/sample-viz";
 import { buildAttackChain, type ChainNode } from "../../lib/viz-selectors";
 import { ChartFrame } from "./ChartFrame";
 import { DataTable } from "./DataTable";
 import { Tooltip } from "./Tooltip";
-import { useMeasure, useMounted } from "./hooks";
+import { useMeasure } from "./hooks";
 import { ARROW_MARKER_ID, ARROW_MARKER_MUTUAL_ID, makeRiskRadius, severityColor, severityFill } from "./theme";
+import { arcPath, useForceLayout, type LayoutNode } from "./useForceLayout";
 
 const HEIGHT = 380;
-const PAD_X = 60;
-const PAD_TOP = 40;
-const PAD_BOTTOM = 56; // room for the resource label under the circle
 
-type SimNode = ChainNode & SimulationNodeDatum;
-interface SimLink extends SimulationLinkDatum<SimNode> {
-  mutual: boolean;
-}
-
-interface Layout {
-  nodes: SimNode[];
-  links: { source: SimNode; target: SimNode; mutual: boolean }[];
-}
-
-/**
- * Deterministic force layout: d3-force initializes nodes in a phyllotaxis
- * arrangement (no randomness), so a synchronous 300-tick always converges to
- * the same picture for the same data + width. Runs client-side only (guarded
- * by useMounted in the component) — never during SSR.
- */
-function computeLayout(width: number, radius: (n: number) => number): Layout {
-  const chain = buildAttackChain(VIZ_FINDINGS);
-  const nodes: SimNode[] = chain.nodes.map((n) => ({ ...n }));
-  const links: SimLink[] = chain.links.map((l) => ({ ...l }));
-
-  // forceX/forceY pull strays back toward the middle DURING the simulation, so
-  // the final safety clamp below almost never fires — clamping after the fact
-  // would stack escaped nodes on top of each other at the frame edge.
-  forceSimulation(nodes)
-    .force("link", forceLink<SimNode, SimLink>(links).id((d) => d.id).distance(95))
-    .force("charge", forceManyBody().strength(-300))
-    .force("center", forceCenter(width / 2, HEIGHT / 2))
-    .force("x", forceX(width / 2).strength(0.06))
-    .force("y", forceY(HEIGHT / 2).strength(0.14))
-    .force("collide", forceCollide<SimNode>((d) => radius(d.riskScore) + 18))
-    .stop()
-    .tick(300);
-
-  for (const n of nodes) {
-    n.x = Math.max(PAD_X, Math.min(width - PAD_X, n.x ?? width / 2));
-    n.y = Math.max(PAD_TOP, Math.min(HEIGHT - PAD_BOTTOM, n.y ?? HEIGHT / 2));
-  }
-
-  // After the simulation, forceLink has resolved source/target to node objects.
-  return { nodes, links: links.map((l) => ({ source: l.source as SimNode, target: l.target as SimNode, mutual: l.mutual })) };
-}
-
-/** Quadratic arc between two points, bowed perpendicular by `offset` px. */
-function arcPath(a: SimNode, b: SimNode, offset: number): string {
-  const x1 = a.x!, y1 = a.y!, x2 = b.x!, y2 = b.y!;
-  const mx = (x1 + x2) / 2;
-  const my = (y1 + y2) / 2;
-  const dx = x2 - x1;
-  const dy = y2 - y1;
-  const len = Math.hypot(dx, dy) || 1;
-  const cx = mx + (-dy / len) * offset;
-  const cy = my + (dx / len) * offset;
-  return `M ${x1} ${y1} Q ${cx} ${cy} ${x2} ${y2}`;
-}
+type SimNode = LayoutNode<ChainNode>;
 
 function Pill({ severity }: { severity: ChainNode["severity"] }) {
   return (
@@ -97,7 +30,6 @@ function Pill({ severity }: { severity: ChainNode["severity"] }) {
  * executive/auditor equivalent is BlastRadiusCard.
  */
 export function AttackChainGraph() {
-  const mounted = useMounted();
   const [containerRef, { width }] = useMeasure<HTMLDivElement>();
   const [hovered, setHovered] = useState<SimNode | null>(null);
   const [pinnedId, setPinnedId] = useState<string | null>(null);
@@ -105,10 +37,12 @@ export function AttackChainGraph() {
   const chain = useMemo(() => buildAttackChain(VIZ_FINDINGS), []);
   const inChain = useMemo(() => new Set(chain.chains.flat()), [chain]);
   const radius = useMemo(() => makeRiskRadius(), []);
-  const layout = useMemo(
-    () => (mounted && width > 0 ? computeLayout(width, radius) : null),
-    [mounted, width, radius],
-  );
+  const collideRadius = useMemo(() => (n: ChainNode) => radius(n.riskScore) + 18, [radius]);
+  const layout = useForceLayout(chain.nodes, chain.links, {
+    width,
+    height: HEIGHT,
+    collideRadius,
+  });
 
   const pinned = layout?.nodes.find((n) => n.id === pinnedId) ?? null;
   const titleById = useMemo(() => new Map(chain.nodes.map((n) => [n.id, n.resourceName])), [chain]);

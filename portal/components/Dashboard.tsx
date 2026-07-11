@@ -7,6 +7,7 @@ import { RiskGauge, SeverityDonut } from "./Charts";
 import { Chat } from "./Chat";
 import { AttackChainGraph } from "./viz/AttackChainGraph";
 import { BlastRadiusCard } from "./viz/BlastRadiusCard";
+import { TopologyMap } from "./viz/TopologyMap";
 
 type View = "executive" | "technical";
 
@@ -88,7 +89,14 @@ export function Dashboard() {
       {/* Threat surface — raw topology is gated by role, not by the view toggle:
           business_owner/auditor get the aggregate blast-radius card instead. */}
       <section className="mb-4">
-        {TECH.includes(role) ? <AttackChainGraph /> : <BlastRadiusCard />}
+        {TECH.includes(role) ? (
+          <div className="grid items-start gap-4 md:grid-cols-2">
+            <AttackChainGraph />
+            <TopologyMap />
+          </div>
+        ) : (
+          <BlastRadiusCard />
+        )}
       </section>
 
       {/* Feed + drill-down */}
