@@ -1,0 +1,171 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-11T18:41:55Z",
+  "title": "Design System: TARS Portal",
+  "extensions": {
+    "colorMeta": {
+      "signal-blue": { "role": "primary", "displayName": "Stock Signal Blue (placeholder)", "canonical": "#3b82f6", "tonalRamp": ["oklch(15% 0.19 260)", "oklch(25% 0.19 260)", "oklch(35% 0.19 260)", "oklch(45% 0.19 260)", "oklch(55% 0.19 260)", "oklch(65% 0.19 260)", "oklch(80% 0.19 260)", "oklch(95% 0.19 260)"] },
+      "signal-blue-night": { "role": "primary", "displayName": "Signal Blue, Night", "canonical": "#5b9dff", "tonalRamp": ["oklch(15% 0.16 258)", "oklch(25% 0.16 258)", "oklch(35% 0.16 258)", "oklch(45% 0.16 258)", "oklch(55% 0.16 258)", "oklch(65% 0.16 258)", "oklch(80% 0.16 258)", "oklch(95% 0.16 258)"] },
+      "alarm-red": { "role": "semantic", "displayName": "Alarm Red", "canonical": "#e5484d", "tonalRamp": ["oklch(15% 0.2 22)", "oklch(25% 0.2 22)", "oklch(35% 0.2 22)", "oklch(45% 0.2 22)", "oklch(55% 0.2 22)", "oklch(65% 0.2 22)", "oklch(80% 0.2 22)", "oklch(95% 0.2 22)"] },
+      "caution-orange": { "role": "semantic", "displayName": "Caution Orange", "canonical": "#f76808", "tonalRamp": ["oklch(15% 0.19 43)", "oklch(25% 0.19 43)", "oklch(35% 0.19 43)", "oklch(45% 0.19 43)", "oklch(55% 0.19 43)", "oklch(65% 0.19 43)", "oklch(80% 0.19 43)", "oklch(95% 0.19 43)"] },
+      "advisory-amber": { "role": "semantic", "displayName": "Advisory Amber", "canonical": "#ffb224", "tonalRamp": ["oklch(15% 0.16 79)", "oklch(25% 0.16 79)", "oklch(35% 0.16 79)", "oklch(45% 0.16 79)", "oklch(55% 0.16 79)", "oklch(65% 0.16 79)", "oklch(80% 0.16 79)", "oklch(95% 0.16 79)"] },
+      "nominal-green": { "role": "semantic", "displayName": "Nominal Green", "canonical": "#46a758", "tonalRamp": ["oklch(15% 0.13 148)", "oklch(25% 0.13 148)", "oklch(35% 0.13 148)", "oklch(45% 0.13 148)", "oklch(55% 0.13 148)", "oklch(65% 0.13 148)", "oklch(80% 0.13 148)", "oklch(95% 0.13 148)"] },
+      "standby-gray": { "role": "semantic", "displayName": "Standby Gray", "canonical": "#8b8d98", "tonalRamp": ["oklch(15% 0.015 275)", "oklch(25% 0.015 275)", "oklch(35% 0.015 275)", "oklch(45% 0.015 275)", "oklch(55% 0.015 275)", "oklch(65% 0.015 275)", "oklch(80% 0.015 275)", "oklch(95% 0.015 275)"] },
+      "ambient-gray": { "role": "neutral", "displayName": "Ambient Gray", "canonical": "#f6f7f9", "tonalRamp": ["oklch(15% 0.004 250)", "oklch(25% 0.004 250)", "oklch(35% 0.004 250)", "oklch(45% 0.004 250)", "oklch(55% 0.004 250)", "oklch(65% 0.004 250)", "oklch(80% 0.004 250)", "oklch(95% 0.004 250)"] },
+      "panel-white": { "role": "neutral", "displayName": "Panel White", "canonical": "#ffffff", "tonalRamp": ["oklch(15% 0 0)", "oklch(25% 0 0)", "oklch(35% 0 0)", "oklch(45% 0 0)", "oklch(55% 0 0)", "oklch(65% 0 0)", "oklch(80% 0 0)", "oklch(95% 0 0)"] },
+      "console-ink": { "role": "neutral", "displayName": "Console Ink", "canonical": "#17191c", "tonalRamp": ["oklch(15% 0.01 255)", "oklch(25% 0.01 255)", "oklch(35% 0.01 255)", "oklch(45% 0.01 255)", "oklch(55% 0.01 255)", "oklch(65% 0.01 255)", "oklch(80% 0.01 255)", "oklch(95% 0.01 255)"] },
+      "telemetry-gray": { "role": "neutral", "displayName": "Telemetry Gray", "canonical": "#6b7280", "tonalRamp": ["oklch(15% 0.02 265)", "oklch(25% 0.02 265)", "oklch(35% 0.02 265)", "oklch(45% 0.02 265)", "oklch(55% 0.02 265)", "oklch(65% 0.02 265)", "oklch(80% 0.02 265)", "oklch(95% 0.02 265)"] },
+      "hairline": { "role": "neutral", "displayName": "Hairline", "canonical": "#e6e8ec", "tonalRamp": ["oklch(15% 0.005 250)", "oklch(25% 0.005 250)", "oklch(35% 0.005 250)", "oklch(45% 0.005 250)", "oklch(55% 0.005 250)", "oklch(65% 0.005 250)", "oklch(80% 0.005 250)", "oklch(95% 0.005 250)"] },
+      "mission-night": { "role": "neutral", "displayName": "Mission Night", "canonical": "#0d1016", "tonalRamp": ["oklch(15% 0.012 255)", "oklch(25% 0.012 255)", "oklch(35% 0.012 255)", "oklch(45% 0.012 255)", "oklch(55% 0.012 255)", "oklch(65% 0.012 255)", "oklch(80% 0.012 255)", "oklch(95% 0.012 255)"] },
+      "instrument-graphite": { "role": "neutral", "displayName": "Instrument Graphite", "canonical": "#151a21", "tonalRamp": ["oklch(15% 0.015 252)", "oklch(25% 0.015 252)", "oklch(35% 0.015 252)", "oklch(45% 0.015 252)", "oklch(55% 0.015 252)", "oklch(65% 0.015 252)", "oklch(80% 0.015 252)", "oklch(95% 0.015 252)"] },
+      "phosphor-white": { "role": "neutral", "displayName": "Phosphor White", "canonical": "#e6e8ec", "tonalRamp": ["oklch(15% 0.005 250)", "oklch(25% 0.005 250)", "oklch(35% 0.005 250)", "oklch(45% 0.005 250)", "oklch(55% 0.005 250)", "oklch(65% 0.005 250)", "oklch(80% 0.005 250)", "oklch(95% 0.005 250)"] },
+      "dimmed-telemetry": { "role": "neutral", "displayName": "Dimmed Telemetry", "canonical": "#9aa1ac", "tonalRamp": ["oklch(15% 0.012 250)", "oklch(25% 0.012 250)", "oklch(35% 0.012 250)", "oklch(45% 0.012 250)", "oklch(55% 0.012 250)", "oklch(65% 0.012 250)", "oklch(80% 0.012 250)", "oklch(95% 0.012 250)"] },
+      "hairline-night": { "role": "neutral", "displayName": "Hairline Night", "canonical": "#242a33", "tonalRamp": ["oklch(15% 0.018 250)", "oklch(25% 0.018 250)", "oklch(35% 0.018 250)", "oklch(45% 0.018 250)", "oklch(55% 0.018 250)", "oklch(65% 0.018 250)", "oklch(80% 0.018 250)", "oklch(95% 0.018 250)"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "The drill-down hero priority numeral (36px/700); chart centers run one step down at 30px/700. The largest thing on screen is always a number." },
+      "headline": { "displayName": "Headline", "purpose": "KPI tile values (24px/700), tinted alarm red for negative intent and nominal green for positive." },
+      "title": { "displayName": "Title", "purpose": "Panel headings and drill-down finding titles (18px/600); the header brand lockup runs 20px/700 with -0.025em tracking." },
+      "body": { "displayName": "Body", "purpose": "Workhorse text (14px/400): summaries, buttons, compliance rows, chat. Un-classed row titles inherit 16px at 600; the narrative block runs 15px with 1.625 leading." },
+      "label": { "displayName": "Label", "purpose": "Uppercase 12px labels with 0.025em tracking in telemetry gray — section headers, KPI labels. Honestly the tracked-uppercase eyebrow PRODUCT.md flags; on the replacement list. The severity pill runs 10px/700 uppercase." }
+    },
+    "shadows": [
+      { "name": "card-whisper", "value": "0 1px 2px rgba(16, 24, 40, 0.06), 0 1px 3px rgba(16, 24, 40, 0.1)", "purpose": "The only shadow in the system: a two-layer whisper under every .card in light mode." },
+      { "name": "lights-out", "value": "none", "purpose": "The dark-mode --shadow value. Depth in dark mode is tonal (surface steps + hairlines), never cast." }
+    ],
+    "motion": [],
+    "breakpoints": [
+      { "name": "md", "value": "768px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "KPI Tile",
+      "kind": "card",
+      "refersTo": "kpi-tile",
+      "description": "Hero-metric tile from the four-across KPI strip; value tinted by intent (negative = alarm red, positive = nominal green).",
+      "html": "<div class=\"ds-kpi ds-kpi--negative\"><div class=\"ds-kpi-label\">Overall Risk</div><div class=\"ds-kpi-value\">88<span class=\"ds-kpi-unit\">/100</span></div></div>",
+      "css": ".ds-kpi { background: var(--panel, #ffffff); border: 1px solid var(--line, #e6e8ec); box-shadow: var(--shadow, 0 1px 2px rgba(16, 24, 40, 0.06), 0 1px 3px rgba(16, 24, 40, 0.1)); border-radius: 12px; padding: 16px; min-width: 180px; font-family: ui-sans-serif, system-ui, sans-serif; } .ds-kpi-label { color: var(--muted, #6b7280); font-size: 12px; line-height: 16px; text-transform: uppercase; letter-spacing: 0.025em; } .ds-kpi-value { margin-top: 4px; font-size: 24px; line-height: 32px; font-weight: 700; color: var(--ink, #17191c); } .ds-kpi--negative .ds-kpi-value { color: var(--color-neg, #e5484d); } .ds-kpi--positive .ds-kpi-value { color: var(--color-pos, #46a758); } .ds-kpi-unit { margin-left: 2px; font-size: 16px; font-weight: 600; color: var(--muted, #6b7280); }"
+    },
+    {
+      "name": "Severity Pill",
+      "kind": "chip",
+      "refersTo": "pill-severity",
+      "description": "The atomic severity signal: fully rounded, severity-colored, always carries the severity word in uppercase (never color alone).",
+      "html": "<span class=\"ds-pill ds-pill--critical\">critical</span> <span class=\"ds-pill ds-pill--high\">high</span> <span class=\"ds-pill ds-pill--medium\">medium</span> <span class=\"ds-pill ds-pill--low\">low</span> <span class=\"ds-pill ds-pill--info\">info</span>",
+      "css": ".ds-pill { display: inline-block; border-radius: 9999px; padding: 2px 6px; font-family: ui-sans-serif, system-ui, sans-serif; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.025em; color: #ffffff; } .ds-pill--critical { background: var(--color-crit, #e5484d); } .ds-pill--high { background: var(--color-high, #f76808); } .ds-pill--medium { background: var(--color-med, #ffb224); } .ds-pill--low { background: var(--color-low, #46a758); } .ds-pill--info { background: var(--color-info, #8b8d98); }"
+    },
+    {
+      "name": "Notification Row",
+      "kind": "custom",
+      "refersTo": "panel",
+      "description": "Priority-ordered telemetry row from the 360px feed: accent checkbox, 600-weight title, pill + category + tabular P-score. Carries the app's one hover idiom. The checkbox focus ring is synthesized; source defines no focus style (browser default only).",
+      "html": "<label class=\"ds-row\"><input class=\"ds-row-check\" type=\"checkbox\" checked /><div class=\"ds-row-body\"><div class=\"ds-row-title\">Full tenant-takeover path is live</div><div class=\"ds-row-meta\"><span class=\"ds-pill ds-pill--critical\">critical</span><span>Identity</span><span class=\"ds-row-pri\">P96</span></div></div></label>",
+      "css": ".ds-row { display: flex; gap: 12px; padding: 12px 16px; background: var(--panel, #ffffff); border-bottom: 1px solid var(--line, #e6e8ec); cursor: pointer; color: var(--ink, #17191c); font-family: ui-sans-serif, system-ui, sans-serif; } .ds-row:hover { background: rgba(0, 0, 0, 0.03); } @media (prefers-color-scheme: dark) { .ds-row:hover { background: rgba(255, 255, 255, 0.04); } } .ds-row-check { margin-top: 4px; width: 16px; height: 16px; flex-shrink: 0; accent-color: var(--accent, #3b82f6); } .ds-row-check:focus-visible { outline: 2px solid var(--accent, #3b82f6); outline-offset: 2px; } .ds-row-body { min-width: 0; flex: 1; } .ds-row-title { font-weight: 600; font-size: 16px; line-height: 24px; } .ds-row-meta { display: flex; align-items: center; gap: 8px; margin-top: 2px; color: var(--muted, #6b7280); font-size: 12px; line-height: 16px; } .ds-row-pri { margin-left: auto; font-weight: 700; font-variant-numeric: tabular-nums; } .ds-pill { display: inline-block; border-radius: 9999px; padding: 2px 6px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.025em; color: #ffffff; } .ds-pill--critical { background: var(--color-crit, #e5484d); }"
+    },
+    {
+      "name": "Role Switcher",
+      "kind": "nav",
+      "refersTo": "button-role-active",
+      "description": "The RBAC mode control: compact card bar of role buttons; active fills signal blue. Hover/focus treatments are synthesized from the row-hover idiom — the source buttons currently define none (flagged austerity gap).",
+      "html": "<div class=\"ds-roleswitcher\"><span class=\"ds-roleswitcher-label\">Viewing as</span><button class=\"ds-role-btn ds-role-btn--active\">Business Owner</button><button class=\"ds-role-btn\">VP / IT Director</button><button class=\"ds-role-btn\">Security Analyst</button><button class=\"ds-role-btn\">Auditor</button></div>",
+      "css": ".ds-roleswitcher { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; background: var(--panel, #ffffff); border: 1px solid var(--line, #e6e8ec); box-shadow: var(--shadow, 0 1px 2px rgba(16, 24, 40, 0.06), 0 1px 3px rgba(16, 24, 40, 0.1)); border-radius: 12px; padding: 8px; font-family: ui-sans-serif, system-ui, sans-serif; } .ds-roleswitcher-label { padding: 0 8px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.025em; color: var(--muted, #6b7280); } .ds-role-btn { border: 1px solid var(--line, #e6e8ec); border-radius: 8px; padding: 6px 12px; font-size: 14px; background: transparent; color: var(--ink, #17191c); cursor: pointer; } .ds-role-btn:hover { background: rgba(0, 0, 0, 0.03); } @media (prefers-color-scheme: dark) { .ds-role-btn:hover { background: rgba(255, 255, 255, 0.04); } } .ds-role-btn:focus-visible { outline: 2px solid var(--accent, #3b82f6); outline-offset: 2px; } .ds-role-btn--active { background: var(--accent, #3b82f6); color: #ffffff; } .ds-role-btn--active:hover { background: var(--accent, #3b82f6); }"
+    },
+    {
+      "name": "View Toggle Button",
+      "kind": "button",
+      "refersTo": "button-view",
+      "description": "Executive/technical view toggle from the header: 6px radius, 4px 10px padding, 14px capitalized label. Active fills signal blue with white text; the 1px hairline border stays in both states (the source never switches it to the accent). Hover/focus treatments are synthesized from the row-hover idiom — the source buttons define none (flagged austerity gap).",
+      "html": "<div class=\"ds-viewtoggle\"><span class=\"ds-viewtoggle-label\">View</span><button class=\"ds-view-btn ds-view-btn--active\">executive</button><button class=\"ds-view-btn\">technical</button></div>",
+      "css": ".ds-viewtoggle { display: flex; align-items: center; gap: 8px; font-family: ui-sans-serif, system-ui, sans-serif; font-size: 14px; } .ds-viewtoggle-label { color: var(--muted, #6b7280); } .ds-view-btn { border: 1px solid var(--line, #e6e8ec); border-radius: 6px; padding: 4px 10px; font-size: 14px; text-transform: capitalize; background: transparent; color: var(--ink, #17191c); cursor: pointer; } .ds-view-btn:hover { background: rgba(0, 0, 0, 0.03); } @media (prefers-color-scheme: dark) { .ds-view-btn:hover { background: rgba(255, 255, 255, 0.04); } } .ds-view-btn:focus-visible { outline: 2px solid var(--accent, #3b82f6); outline-offset: 2px; } .ds-view-btn--active { background: var(--accent, #3b82f6); color: #ffffff; } .ds-view-btn--active:hover { background: var(--accent, #3b82f6); }"
+    },
+    {
+      "name": "Primary Button (Ask)",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The system's one primary button — the chat send action: signal-blue fill, white 14px/600 label, 8px radius, 8px 16px padding, disabled at 50% opacity. Hover and focus are synthesized; source defines only disabled:opacity-50.",
+      "html": "<button class=\"ds-btn-primary\">Ask</button> <button class=\"ds-btn-primary\" disabled>Ask</button>",
+      "css": ".ds-btn-primary { border: none; border-radius: 8px; padding: 8px 16px; font-family: ui-sans-serif, system-ui, sans-serif; font-size: 14px; font-weight: 600; color: #ffffff; background: var(--accent, #3b82f6); cursor: pointer; } .ds-btn-primary:hover { filter: brightness(1.06); } .ds-btn-primary:focus-visible { outline: 2px solid var(--accent, #3b82f6); outline-offset: 2px; } .ds-btn-primary:disabled { opacity: 0.5; }"
+    },
+    {
+      "name": "Compliance Progress Bars",
+      "kind": "custom",
+      "refersTo": "panel",
+      "description": "Per-framework coverage rows on 6px hairline tracks; fill is a severity-ladder judgment — nominal green at 60%+ coverage, caution orange below.",
+      "html": "<div class=\"ds-compliance\"><div class=\"ds-compliance-head\">Compliance coverage</div><div class=\"ds-compliance-row\"><div class=\"ds-compliance-meta\"><span>MCSB</span><span class=\"ds-compliance-pct\">55%</span></div><div class=\"ds-compliance-track\"><div class=\"ds-compliance-fill ds-compliance-fill--warn\" style=\"width: 55%\"></div></div></div><div class=\"ds-compliance-row\"><div class=\"ds-compliance-meta\"><span>SOC2</span><span class=\"ds-compliance-pct\">60%</span></div><div class=\"ds-compliance-track\"><div class=\"ds-compliance-fill\" style=\"width: 60%\"></div></div></div><div class=\"ds-compliance-row\"><div class=\"ds-compliance-meta\"><span>SOX</span><span class=\"ds-compliance-pct\">50%</span></div><div class=\"ds-compliance-track\"><div class=\"ds-compliance-fill ds-compliance-fill--warn\" style=\"width: 50%\"></div></div></div></div>",
+      "css": ".ds-compliance { min-width: 220px; color: var(--ink, #17191c); font-family: ui-sans-serif, system-ui, sans-serif; } .ds-compliance-head { margin-bottom: 8px; font-size: 12px; text-transform: uppercase; letter-spacing: 0.025em; color: var(--muted, #6b7280); } .ds-compliance-row { margin-bottom: 6px; } .ds-compliance-meta { display: flex; justify-content: space-between; font-size: 14px; line-height: 20px; } .ds-compliance-pct { color: var(--muted, #6b7280); font-variant-numeric: tabular-nums; } .ds-compliance-track { height: 6px; width: 100%; overflow: hidden; border-radius: 9999px; background: var(--line, #e6e8ec); } .ds-compliance-fill { height: 100%; border-radius: 9999px; background: var(--color-low, #46a758); } .ds-compliance-fill--warn { background: var(--color-high, #f76808); }"
+    },
+    {
+      "name": "Drill-Down Hero Panel",
+      "kind": "card",
+      "refersTo": "panel",
+      "description": "The console's stage: uppercase header bar, pill + title hero, 36px priority numeral over a severity-colored bar on a hairline track, hairline-ruled summary. The numeral's tabular-nums is synthesized per the Tabular Discipline Rule; the source (text-4xl font-bold) defines none.",
+      "html": "<section class=\"ds-drilldown\"><h2 class=\"ds-drilldown-header\">Drill-down</h2><div class=\"ds-drilldown-body\"><div class=\"ds-drilldown-head\"><span class=\"ds-pill ds-pill--critical\">critical</span><h3 class=\"ds-drilldown-title\">Full tenant-takeover path is live</h3></div><div class=\"ds-drilldown-pri-label\">Priority</div><div class=\"ds-drilldown-pri\">96<span class=\"ds-drilldown-pri-unit\">/100</span></div><div class=\"ds-drilldown-bar\"><div class=\"ds-drilldown-bar-fill\"></div></div><p class=\"ds-drilldown-summary\">Internet-exposed RDP plus an MFA-less Global Admin chain into complete tenant compromise. Fix both this week.</p></div></section>",
+      "css": ".ds-drilldown { background: var(--panel, #ffffff); border: 1px solid var(--line, #e6e8ec); box-shadow: var(--shadow, 0 1px 2px rgba(16, 24, 40, 0.06), 0 1px 3px rgba(16, 24, 40, 0.1)); border-radius: 16px; max-width: 480px; color: var(--ink, #17191c); font-family: ui-sans-serif, system-ui, sans-serif; } .ds-drilldown-header { margin: 0; padding: 12px 16px; border-bottom: 1px solid var(--line, #e6e8ec); font-size: 12px; font-weight: 400; text-transform: uppercase; letter-spacing: 0.025em; color: var(--muted, #6b7280); } .ds-drilldown-body { padding: 20px; } .ds-drilldown-head { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; } .ds-drilldown-title { margin: 0; font-size: 18px; font-weight: 600; } .ds-drilldown-pri-label { font-size: 12px; text-transform: uppercase; letter-spacing: 0.025em; color: var(--muted, #6b7280); } .ds-drilldown-pri { font-size: 36px; line-height: 40px; font-weight: 700; font-variant-numeric: tabular-nums; } .ds-drilldown-pri-unit { font-size: 16px; font-weight: 600; color: var(--muted, #6b7280); } .ds-drilldown-bar { margin-top: 4px; height: 8px; width: 208px; overflow: hidden; border-radius: 9999px; background: var(--line, #e6e8ec); } .ds-drilldown-bar-fill { height: 100%; width: 96%; border-radius: 9999px; background: var(--color-crit, #e5484d); } .ds-drilldown-summary { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--line, #e6e8ec); font-size: 16px; line-height: 1.625; } .ds-pill { display: inline-block; border-radius: 9999px; padding: 2px 6px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.025em; color: #ffffff; } .ds-pill--critical { background: var(--color-crit, #e5484d); }"
+    },
+    {
+      "name": "Chat Widget",
+      "kind": "custom",
+      "refersTo": "input-chat",
+      "description": "RBAC-scoped chat card, expanded state: user bubbles in signal blue right, agent bubbles on hairline fill left, recessed input + Ask button. Toggle hover, send-button hover, and input focus are synthesized; source defines only disabled:opacity-50.",
+      "html": "<section class=\"ds-chat\"><button class=\"ds-chat-toggle\"><span>Customer service · answers scoped to your role (business_owner)</span><span>▾</span></button><div class=\"ds-chat-body\"><div class=\"ds-chat-msgs\"><div class=\"ds-chat-msg ds-chat-msg--you\">What's our single biggest risk right now?</div><div class=\"ds-chat-msg ds-chat-msg--agent\">The live tenant-takeover path: internet-exposed RDP plus an MFA-less Global Admin. Fix both this week.</div></div><div class=\"ds-chat-inputrow\"><input class=\"ds-chat-input\" placeholder=\"e.g. What's our single biggest risk right now?\" /><button class=\"ds-chat-send\">Ask</button></div></div></section>",
+      "css": ".ds-chat { background: var(--panel, #ffffff); border: 1px solid var(--line, #e6e8ec); box-shadow: var(--shadow, 0 1px 2px rgba(16, 24, 40, 0.06), 0 1px 3px rgba(16, 24, 40, 0.1)); border-radius: 16px; max-width: 520px; font-family: ui-sans-serif, system-ui, sans-serif; } .ds-chat-toggle { display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 8px; padding: 12px 16px; background: transparent; border: none; cursor: pointer; font-size: 12px; text-transform: uppercase; letter-spacing: 0.025em; color: var(--muted, #6b7280); } .ds-chat-toggle:hover { background: rgba(0, 0, 0, 0.03); } @media (prefers-color-scheme: dark) { .ds-chat-toggle:hover { background: rgba(255, 255, 255, 0.04); } } .ds-chat-toggle:focus-visible { outline: 2px solid var(--accent, #3b82f6); outline-offset: -2px; } .ds-chat-body { border-top: 1px solid var(--line, #e6e8ec); padding: 16px; } .ds-chat-msgs { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; } .ds-chat-msg { border-radius: 16px; padding: 8px 12px; font-size: 14px; line-height: 20px; } .ds-chat-msg--you { align-self: flex-end; background: var(--accent, #3b82f6); color: #ffffff; } .ds-chat-msg--agent { align-self: flex-start; background: var(--line, #e6e8ec); color: var(--ink, #17191c); } .ds-chat-inputrow { display: flex; gap: 8px; } .ds-chat-input { flex: 1; border: 1px solid var(--line, #e6e8ec); border-radius: 8px; padding: 8px 12px; font-size: 14px; background: var(--bg, #f6f7f9); color: var(--ink, #17191c); } .ds-chat-input:focus-visible { outline: 2px solid var(--accent, #3b82f6); outline-offset: -1px; } .ds-chat-send { border: none; border-radius: 8px; padding: 8px 16px; font-size: 14px; font-weight: 600; color: #ffffff; background: var(--accent, #3b82f6); cursor: pointer; } .ds-chat-send:hover { filter: brightness(1.06); } .ds-chat-send:focus-visible { outline: 2px solid var(--accent, #3b82f6); outline-offset: 2px; } .ds-chat-send:disabled { opacity: 0.5; }"
+    },
+    {
+      "name": "Severity Donut",
+      "kind": "custom",
+      "refersTo": "panel",
+      "description": "Findings-by-severity donut (static SVG equivalent of the Recharts PieChart: 168px, ring radius 54-78, 2-degree slice padding) with bold count and muted caption dead-center. Data: 2 critical, 2 high, 2 medium, 1 low.",
+      "html": "<div class=\"ds-donut\"><svg width=\"168\" height=\"168\" viewBox=\"0 0 168 168\" role=\"img\" aria-label=\"Findings by severity\"><g transform=\"rotate(-90 84 84)\"><circle cx=\"84\" cy=\"84\" r=\"66\" fill=\"none\" stroke=\"var(--color-crit, #e5484d)\" stroke-width=\"24\" stroke-dasharray=\"115.85 298.84\" stroke-dashoffset=\"0\"/><circle cx=\"84\" cy=\"84\" r=\"66\" fill=\"none\" stroke=\"var(--color-high, #f76808)\" stroke-width=\"24\" stroke-dasharray=\"115.85 298.84\" stroke-dashoffset=\"-118.15\"/><circle cx=\"84\" cy=\"84\" r=\"66\" fill=\"none\" stroke=\"var(--color-med, #ffb224)\" stroke-width=\"24\" stroke-dasharray=\"115.85 298.84\" stroke-dashoffset=\"-236.31\"/><circle cx=\"84\" cy=\"84\" r=\"66\" fill=\"none\" stroke=\"var(--color-low, #46a758)\" stroke-width=\"24\" stroke-dasharray=\"57.93 356.76\" stroke-dashoffset=\"-354.46\"/></g></svg><div class=\"ds-donut-center\"><div class=\"ds-donut-total\">7</div><div class=\"ds-donut-cap\">findings</div></div></div>",
+      "css": ".ds-donut { position: relative; width: 168px; height: 168px; font-family: ui-sans-serif, system-ui, sans-serif; } .ds-donut-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; pointer-events: none; } .ds-donut-total { font-size: 30px; font-weight: 700; line-height: 1; color: var(--ink, #17191c); } .ds-donut-cap { margin-top: 4px; font-size: 12px; color: var(--muted, #6b7280); }"
+    },
+    {
+      "name": "Risk Gauge",
+      "kind": "custom",
+      "refersTo": "panel",
+      "description": "Risk-posture gauge (static SVG equivalent of the Recharts RadialBarChart: 260-degree arc from 220 to -40 on a hairline track, rounded caps). Fill color IS the verdict: 80+ alarm red, 60+ caution orange, 40+ advisory amber, else nominal green. Shown at score 88. The score's tabular-nums is synthesized per the Tabular Discipline Rule; the source (text-3xl font-bold leading-none) defines none.",
+      "html": "<div class=\"ds-gauge\"><svg width=\"168\" height=\"168\" viewBox=\"0 0 168 168\" role=\"img\" aria-label=\"Risk score 88 of 100\"><path d=\"M 28.85 130.28 A 72 72 0 1 0 139.15 130.28\" fill=\"none\" stroke=\"var(--line, #e6e8ec)\" stroke-width=\"24\" stroke-linecap=\"round\"/><path d=\"M 28.85 130.28 A 72 72 0 1 0 85.51 12.02\" fill=\"none\" stroke=\"var(--color-crit, #e5484d)\" stroke-width=\"24\" stroke-linecap=\"round\"/></svg><div class=\"ds-gauge-center\"><div class=\"ds-gauge-score\">88</div><div class=\"ds-gauge-cap\">risk /100</div></div></div>",
+      "css": ".ds-gauge { position: relative; width: 168px; height: 168px; font-family: ui-sans-serif, system-ui, sans-serif; } .ds-gauge-center { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; pointer-events: none; } .ds-gauge-score { font-size: 30px; font-weight: 700; line-height: 1; color: var(--ink, #17191c); font-variant-numeric: tabular-nums; } .ds-gauge-cap { margin-top: 4px; font-size: 12px; color: var(--muted, #6b7280); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Flight Director's Console",
+    "overview": "TARS is the customer-facing window onto an MSP agent fleet, and its interface is built to feel like the room where launches are run: dark instrument surfaces, luminous data, and absolute composure under critical alerts. Severity is met with procedure, not panic. A live tenant-takeover finding gets an alarm-red pill, a priority numeral, and precise language — never a flashing banner. The brand personality is mission-control calm: **precise, composed, advanced**.\n\nThe system as coded today is a competent, austere instrument panel: OS-adaptive light/dark surfaces, one hairline-bordered card recipe, five reserved severity hues, system-stack typography, and numbers as the largest objects on every screen. Several pieces are explicit placeholders awaiting the redesign — the stock Tailwind accent, the unbranded font stack, the near-flat elevation — and this document marks each of them honestly, separating what *is* from what is *committed to come*.\n\nWhat the system rejects is the default: the AI-generated SaaS admin template (cream/gray identical-card grids, tracked-uppercase eyebrows) and enterprise-dated, SharePoint-era chrome. Hero metrics, richly visualized alerts, illustration, and fintech-grade styling are *not* rejected — they are wanted, and must be executed exceptionally rather than avoided.",
+    "keyCharacteristics": [
+      "OS-adaptive dual theme; the dark theme (mission night → instrument graphite) is the console's true register.",
+      "Numbers are the heroes — the biggest type on any screen is a metric, a priority, or a risk score.",
+      "A five-hue severity ladder, always pill-labeled with text, never encoded in color alone.",
+      "One card recipe everywhere: panel surface, 1px hairline, whisper shadow (none in dark).",
+      "Composure under alarm: severity escalates precision, never volume.",
+      "Deliberate placeholder debt (accent, typeface, elevation) flagged for the coming redesign."
+    ],
+    "rules": [
+      { "name": "The Composure Rule", "body": "Severity is answered with procedure, not panic. A critical finding gets exact language, an alarm-red pill, and a priority number — it is never given flashing, pulsing, oversized, or shouting treatment. If a screen looks alarmed, it is wrong; the console is alarmed *for* you.", "section": "overview" },
+      { "name": "The Severity Is Sacred Rule", "body": "Alarm red, caution orange, advisory amber, nominal green, and standby gray belong exclusively to severity, intent, and compliance state. They never decorate. If a color signals, nothing else on the screen may wear it.", "section": "colors" },
+      { "name": "The Placeholder Accent Rule", "body": "`#3b82f6` is a stopgap, not an identity. Do not deepen its footprint — no new gradients, illustrations, or brand surfaces built on it. Every use should be trivially swappable the day the real accent lands.", "section": "colors" },
+      { "name": "The Never Color Alone Rule", "body": "Severity is always paired with its uppercase text label (the pill). Color-only severity encoding is prohibited — this is an accessibility commitment from PRODUCT.md, not a preference.", "section": "colors" },
+      { "name": "The Numerals Carry the Room Rule", "body": "Data outranks headings. The visual hierarchy inverts the typical admin panel: headings are small, muted, uppercase furniture; the numbers they label are the largest, heaviest objects on screen. Never let a heading outweigh its metric.", "section": "typography" },
+      { "name": "The Tabular Discipline Rule", "body": "Any numeral that can change — priorities, percentages, counts — is set in `tabular-nums`. Jumping digits are prohibited on an instrument panel.", "section": "typography" },
+      { "name": "The Lights-Out Rule", "body": "In dark mode, shadows are dead. Separation is carried entirely by surface steps and hairlines. Do not add drop shadows to dark surfaces — a glowing shadow under a dark card is 2014.", "section": "elevation" },
+      { "name": "The Layered Luminous Rule", "body": "*(Direction, not current code.)* When depth arrives, it arrives as light: inner luminance, edge glow, and layered surface tones — data surfaces lit from within. Drop-shadow stacking is not the future of this system.", "section": "elevation" },
+      { "name": "The One Card Voice Rule", "body": "Every container in the portal is the same `.card` recipe — panel surface, 1px hairline, whisper shadow (none in dark). No component invents its own container treatment. One voice, many instruments.", "section": "components" },
+      { "name": "The Fintech Finish Rule", "body": "*(Direction, not current code.)* Components are headed toward confident and tactile — bolder presence, satisfying weight, fintech-grade finish. New components should close that gap deliberately; copying today's austerity forward is not fidelity, it is stagnation.", "section": "components" }
+    ],
+    "dos": [
+      "**Do** make numbers the heroes: hero metrics are wanted. The largest type on screen is a metric (24px+ / 700), its label small, muted, and beneath it in importance.",
+      "**Do** pair every severity color with its uppercase text pill — alarm red `#e5484d`, caution orange `#f76808`, advisory amber `#ffb224`, nominal green `#46a758`, standby gray `#8b8d98` — never color alone.",
+      "**Do** route every container through the one `.card` recipe: `--panel` surface, 1px `--line` border, `--shadow` (whisper in light, none in dark).",
+      "**Do** build richly visualized alerts, illustration, and fintech-grade styling — these are explicitly wanted per PRODUCT.md; execute them exceptionally rather than avoiding them.",
+      "**Do** set every mutable numeral in `tabular-nums`, and keep dark mode shadowless until the layered-luminous system lands — depth via surface steps (`#0d1016` → `#151a21`) and hairlines.",
+      "**Do** treat `#3b82f6` as disposable scaffolding: use it only where the accent already appears, so the real brand accent can replace it in one sweep."
+    ],
+    "donts": [
+      "**Don't** ship \"the AI-generated SaaS admin template — cream/gray identical-card grids, tracked-uppercase eyebrows, the default admin-panel look that is now everywhere and produces AI fatigue\" (PRODUCT.md, verbatim). Scott's brief: \"This should be something that looks fresh, newer than MOST SaaS AI-generated admin panels that now feel overly used and exhausting.\" Audit test: if a screenshot could be any AI-generated admin panel, it fails. (Honesty: today's identical KPI grid and tracked-uppercase labels *are* this pattern — known debt, first against the wall in the redesign.)",
+      "**Don't** ship \"enterprise-dated UI — SharePoint-era chrome, gray-on-gray density, 2010s admin styling\" (PRODUCT.md, verbatim).",
+      "**Don't** deepen the placeholder accent's footprint — no gradients, brand moments, or illustrations built on stock Tailwind blue-500.",
+      "**Don't** manufacture panic: no flashing, pulsing, oversized, or animated alarm treatments. Severity escalates precision, never volume (The Composure Rule).",
+      "**Don't** use the severity hues for anything but severity, intent, and compliance state — and never encode severity in color alone.",
+      "**Don't** invent per-component shadows, border weights, or container styles; and don't add drop shadows to dark surfaces — lights out means lights out."
+    ]
+  }
+}
