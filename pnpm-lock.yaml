@@ -75,6 +75,9 @@ importers:
       '@tars/contracts':
         specifier: workspace:*
         version: link:../contracts
+      zod:
+        specifier: ^4.4.3
+        version: 4.4.3
     devDependencies:
       '@microsoft/microsoft-graph-types':
         specifier: ^2.40.0

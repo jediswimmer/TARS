@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@tars/contracts": "workspace:*",
+    "zod": "^4.4.3",
     "@azure/identity": "^4.13.1",
     "@azure/arm-resourcegraph": "^4.2.1",
     "@azure/arm-security": "^5.0.0",
