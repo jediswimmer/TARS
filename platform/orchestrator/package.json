@@ -1,0 +1,33 @@
+{
+  "name": "@tars/orchestrator",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Pipeline runner + scheduler. Wires the fleet into cascading, scheduled workflows.",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": { ".": "./src/index.ts" },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "build": "tsc",
+    "demo": "tsx src/demo.ts",
+    "azure-security": "tsx src/run.ts azure-security",
+    "bakeoff": "tsx src/bakeoff.ts"
+  },
+  "dependencies": {
+    "@tars/contracts": "workspace:*",
+    "@tars/core": "workspace:*",
+    "@tars/agents": "workspace:*",
+    "@tars/connectors": "workspace:*",
+    "@tars/evals": "workspace:*",
+    "@tars/provider-claude": "workspace:*",
+    "@tars/provider-grok": "workspace:*",
+    "@tars/provider-sol": "workspace:*",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  }
+}

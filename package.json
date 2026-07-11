@@ -1,0 +1,41 @@
+{
+  "name": "tars",
+  "version": "0.1.0",
+  "private": true,
+  "description": "TARS — Tactical Analysis and Reporting System. An ever-expanding fleet of scheduled, narrowly-scoped agents for an MSP.",
+  "type": "module",
+  "packageManager": "pnpm@9.12.0",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "typecheck": "pnpm -r --if-present run typecheck",
+    "build": "pnpm -r --if-present run build",
+    "test": "node --import tsx --test tests/*.test.ts",
+    "lint": "pnpm -r --if-present run lint",
+    "pipeline:azure": "pnpm --filter @tars/orchestrator run azure-security",
+    "bakeoff": "pnpm --filter @tars/orchestrator run bakeoff",
+    "demo": "pnpm --filter @tars/orchestrator run demo",
+    "portal": "pnpm --filter @tars/portal run dev"
+  },
+  "devDependencies": {
+    "@tars/agents": "workspace:*",
+    "@tars/connectors": "workspace:*",
+    "@tars/contracts": "workspace:*",
+    "@tars/core": "workspace:*",
+    "@tars/evals": "workspace:*",
+    "@tars/orchestrator": "workspace:*",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0",
+    "zod": "^4.4.3"
+  },
+  "keywords": [
+    "msp",
+    "agents",
+    "security",
+    "azure",
+    "llm",
+    "orchestration"
+  ],
+  "license": "UNLICENSED"
+}
