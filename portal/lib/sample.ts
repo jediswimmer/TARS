@@ -16,6 +16,15 @@ export const SEVERITY_COLOR: Record<Severity, string> = {
   info: "var(--color-info)",
 };
 
+/** Text-safe severity colors (≥4.5:1 on 14% severity tint over --bg/--panel). */
+export const SEVERITY_TEXT_COLOR: Record<Severity, string> = {
+  critical: "var(--color-crit-text)",
+  high: "var(--color-high-text)",
+  medium: "var(--color-med-text)",
+  low: "var(--color-low-text)",
+  info: "var(--color-info-text)",
+};
+
 export const SEVERITY_COUNTS: Record<Severity, number> = { critical: 2, high: 2, medium: 2, low: 1, info: 0 };
 
 export const RISK_SCORE = 88;
@@ -46,7 +55,9 @@ export const COMPLIANCE: { framework: string; coverage: number; gaps: string[] }
   { framework: "SOX", coverage: 0.5, gaps: ["Privileged access over financial systems"] },
 ];
 
-const now = "2026-07-11T02:00:00.000Z";
+/** Fixed scan timestamp for sample fixtures (ISO). Reused for header "as of". */
+export const SCAN_TIME = "2026-07-11T02:00:00.000Z";
+const now = SCAN_TIME;
 const ALL: Role[] = ["business_owner", "it_director", "security_analyst", "auditor", "msp_admin"];
 const TECH: Role[] = ["it_director", "security_analyst", "msp_admin"];
 
