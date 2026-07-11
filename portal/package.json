@@ -1,0 +1,8 @@
+{
+  "name": "@tars/portal",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Customer portal + main dashboard. RBAC-gated; renders the executive/technical views and the notification feed from fleet artifacts.",
+  "//stack": "Phase 3 wires this as a Next.js (App Router) + React + Tailwind + shadcn/ui + Recharts app that imports @tars/contracts types and reads artifacts from the store/API. See README.md.",
+  "//mockup": "mockup/dashboard.html is a self-contained, buildless preview of the target dashboard — open it in a browser."
+}

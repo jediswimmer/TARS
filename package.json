@@ -1,0 +1,28 @@
+{
+  "name": "tars",
+  "version": "0.1.0",
+  "private": true,
+  "description": "TARS — Tactical Analysis and Reporting System. An ever-expanding fleet of scheduled, narrowly-scoped agents for an MSP.",
+  "type": "module",
+  "packageManager": "pnpm@9.12.0",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "typecheck": "pnpm -r --if-present run typecheck",
+    "build": "pnpm -r --if-present run build",
+    "test": "pnpm -r --if-present run test",
+    "lint": "pnpm -r --if-present run lint",
+    "pipeline:azure": "pnpm --filter @tars/orchestrator run azure-security",
+    "demo": "pnpm --filter @tars/orchestrator run demo"
+  },
+  "keywords": [
+    "msp",
+    "agents",
+    "security",
+    "azure",
+    "llm",
+    "orchestration"
+  ],
+  "license": "UNLICENSED"
+}

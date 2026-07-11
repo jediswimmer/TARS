@@ -1,0 +1,24 @@
+{
+  "name": "@tars/provider-grok",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "xAI Grok implementation of the TARS agent fleet. Mirrors provider-claude; port the LlmProvider + prompts here.",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": { ".": "./src/index.ts" },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@tars/contracts": "workspace:*",
+    "@tars/core": "workspace:*",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "typescript": "^5.6.0"
+  },
+  "//impl-note": "xAI is OpenAI-API-compatible. When implementing, add `openai` and construct with baseURL https://api.x.ai/v1 + XAI_API_KEY."
+}

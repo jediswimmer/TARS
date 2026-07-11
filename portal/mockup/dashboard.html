@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TARS — Security Dashboard (mockup)</title>
+    <style>
+      :root {
+        --bg: #f7f8fa; --panel: #ffffff; --ink: #1a1d21; --muted: #6b7280;
+        --line: #e6e8ec; --accent: #3b82f6;
+        --crit: #e5484d; --high: #f76808; --med: #ffb224; --low: #46a758; --info: #8b8d98;
+        --pos: #46a758; --neg: #e5484d; --neu: #6b7280;
+        --shadow: 0 1px 2px rgba(16,24,40,.06), 0 1px 3px rgba(16,24,40,.1);
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0e1116; --panel: #161a21; --ink: #e6e8ec; --muted: #9aa1ac;
+          --line: #262b34; --accent: #5b9dff; --shadow: none;
+        }
+      }
+      * { box-sizing: border-box; }
+      body { margin: 0; background: var(--bg); color: var(--ink);
+        font: 14px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+      .wrap { max-width: 1200px; margin: 0 auto; padding: 24px; }
+      header.top { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+      .brand { font-size: 20px; font-weight: 700; letter-spacing: -.01em; }
+      .brand small { color: var(--muted); font-weight: 500; font-size: 13px; margin-left: 8px; }
+      .tenant { color: var(--muted); font-size: 13px; }
+
+      .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
+      .kpi { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; box-shadow: var(--shadow); }
+      .kpi .label { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .04em; }
+      .kpi .val { font-size: 28px; font-weight: 700; margin-top: 4px; letter-spacing: -.02em; }
+      .kpi .val small { font-size: 15px; font-weight: 600; color: var(--muted); }
+      .kpi.neg .val { color: var(--neg); } .kpi.pos .val { color: var(--pos); }
+
+      .grid { display: grid; grid-template-columns: 380px 1fr; gap: 16px; align-items: start; }
+      .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow); }
+      .panel h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted); margin: 0; padding: 14px 16px; border-bottom: 1px solid var(--line); }
+
+      .feed { max-height: 520px; overflow-y: auto; }
+      .row { display: flex; gap: 10px; padding: 12px 16px; border-bottom: 1px solid var(--line); cursor: pointer; }
+      .row:hover { background: rgba(127,127,127,.05); }
+      .row input { margin-top: 3px; accent-color: var(--accent); width: 15px; height: 15px; }
+      .row .body { flex: 1; min-width: 0; }
+      .row .title { font-weight: 600; }
+      .row .meta { color: var(--muted); font-size: 12px; margin-top: 2px; display: flex; gap: 8px; align-items: center; }
+      .pill { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; padding: 2px 6px; border-radius: 999px; color: #fff; }
+      .pri { margin-left: auto; font-variant-numeric: tabular-nums; font-weight: 700; color: var(--muted); }
+
+      .hero { padding: 20px; }
+      .hero .head { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+      .hero h3 { margin: 0; font-size: 18px; letter-spacing: -.01em; }
+      .viz { display: flex; gap: 28px; align-items: center; flex-wrap: wrap; }
+      .legend { display: grid; gap: 6px; }
+      .legend div { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+      .swatch { width: 11px; height: 11px; border-radius: 3px; }
+      .detail { margin-top: 18px; padding-top: 16px; border-top: 1px solid var(--line); color: var(--ink); }
+      .detail p { color: var(--muted); }
+      .cards { display: grid; gap: 10px; margin-top: 12px; }
+      .card { border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
+      .card .t { font-weight: 600; }
+      .card .d { color: var(--muted); font-size: 13px; margin-top: 3px; }
+      .hint { color: var(--muted); font-size: 13px; }
+      @media (max-width: 820px) { .grid { grid-template-columns: 1fr; } .kpis { grid-template-columns: repeat(2, 1fr); } }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="top">
+        <div>
+          <div class="brand">TARS <small>Tactical Analysis &amp; Reporting System</small></div>
+          <div class="tenant">Contoso Financial · Production (sub-prod-01) · scanned nightly by the Claude fleet</div>
+        </div>
+        <div class="tenant" id="role">Viewing as: Business Owner ▾</div>
+      </header>
+
+      <section class="kpis" id="kpis"></section>
+
+      <div class="grid">
+        <section class="panel">
+          <h2>Notifications · priority-ordered</h2>
+          <div class="feed" id="feed"></div>
+        </section>
+        <section class="panel">
+          <h2>Drill-down</h2>
+          <div class="hero" id="hero"></div>
+        </section>
+      </div>
+    </div>
+
+    <script>
+      // ---- Demo data (mirrors the offline pipeline output) ----
+      const SEV = { critical: "var(--crit)", high: "var(--high)", medium: "var(--med)", low: "var(--low)", info: "var(--info)" };
+      const kpis = [
+        { label: "Overall Risk", val: "88", suffix: "/100", intent: "neg" },
+        { label: "Critical Issues", val: "2", intent: "neg" },
+        { label: "Active Data Exposure", val: "Yes", intent: "neg" },
+        { label: "Quick Wins ≤7d", val: "3", intent: "pos" },
+      ];
+      const severityCounts = { critical: 2, high: 1, medium: 0, low: 0, info: 0 };
+      const notifications = [
+        { id: "n1", pri: 96, sev: "critical", cat: "Identity", title: "Full tenant-takeover path is live",
+          detail: "Internet-exposed RDP on jumpbox-01 plus an MFA-less Global Administrator chain into complete tenant compromise (MITRE T1133 → T1078). Fix both this week." },
+        { id: "n2", pri: 84, sev: "high", cat: "Data Exposure", title: "Confidential customer data is publicly readable",
+          detail: "The 'customer-statements' container on contosofinstore01 is exposed to the internet. Treat as an active incident." },
+        { id: "n3", pri: 72, sev: "high", cat: "Data", title: "Production SQL Server publicly reachable, TDE disabled",
+          detail: "contoso-sql-prod allows 0.0.0.0/0 and has Transparent Data Encryption disabled." },
+        { id: "n4", pri: 61, sev: "medium", cat: "Logging", title: "Activity log export not configured",
+          detail: "No diagnostic settings on the subscription — you cannot investigate an incident after the fact." },
+        { id: "n5", pri: 58, sev: "medium", cat: "Configuration", title: "App Service allows plain HTTP + FTPS",
+          detail: "contoso-portal has httpsOnly=false and ftpsState=AllAllowed." },
+        { id: "n6", pri: 40, sev: "low", cat: "Identity", title: "CI service principal is Owner at subscription scope",
+          detail: "ci-deployer-sp holds Owner where Contributor on a resource group would suffice." },
+      ];
+
+      // ---- Render KPIs ----
+      document.getElementById("kpis").innerHTML = kpis.map(k =>
+        `<div class="kpi ${k.intent === "neg" ? "neg" : k.intent === "pos" ? "pos" : ""}">
+           <div class="label">${k.label}</div>
+           <div class="val">${k.val}${k.suffix ? `<small>${k.suffix}</small>` : ""}</div>
+         </div>`).join("");
+
+      // ---- Render feed ----
+      const selected = new Set();
+      const feed = document.getElementById("feed");
+      feed.innerHTML = notifications.map(n =>
+        `<label class="row" for="${n.id}">
+           <input type="checkbox" id="${n.id}" data-id="${n.id}" />
+           <div class="body">
+             <div class="title">${n.title}</div>
+             <div class="meta">
+               <span class="pill" style="background:${SEV[n.sev]}">${n.sev}</span>
+               <span>${n.cat}</span>
+               <span class="pri">P${n.pri}</span>
+             </div>
+           </div>
+         </label>`).join("");
+
+      // ---- Donut (SVG) of findings-by-severity ----
+      function donut() {
+        const entries = Object.entries(severityCounts).filter(([, v]) => v > 0);
+        const total = entries.reduce((s, [, v]) => s + v, 0) || 1;
+        const R = 54, C = 2 * Math.PI * R; let off = 0;
+        const arcs = entries.map(([sev, v]) => {
+          const len = (v / total) * C;
+          const seg = `<circle r="${R}" cx="70" cy="70" fill="none" stroke="${SEV[sev]}" stroke-width="20"
+             stroke-dasharray="${len} ${C - len}" stroke-dashoffset="${-off}" transform="rotate(-90 70 70)"/>`;
+          off += len; return seg;
+        }).join("");
+        const legend = entries.map(([sev, v]) =>
+          `<div><span class="swatch" style="background:${SEV[sev]}"></span>${sev} · ${v}</div>`).join("");
+        return `<div class="viz">
+          <svg width="140" height="140" viewBox="0 0 140 140" role="img" aria-label="Findings by severity">
+            ${arcs}
+            <text x="70" y="66" text-anchor="middle" font-size="26" font-weight="700" fill="currentColor">${total}</text>
+            <text x="70" y="86" text-anchor="middle" font-size="11" fill="var(--muted)">findings</text>
+          </svg>
+          <div class="legend">${legend}</div>
+        </div>`;
+      }
+
+      function heroOverview() {
+        return `<div class="head"><h3>Environment risk overview</h3></div>
+          ${donut()}
+          <div class="detail"><p>Check one or more notifications on the left to build a focused, live drill-down.
+          The highest-priority selection becomes the hero below.</p></div>`;
+      }
+
+      function heroFor(items) {
+        const top = items[0];
+        const rest = items.slice(1);
+        const bar = `<svg width="220" height="24" viewBox="0 0 220 24" aria-hidden="true">
+            <rect x="0" y="8" width="220" height="8" rx="4" fill="var(--line)"/>
+            <rect x="0" y="8" width="${(top.pri / 100) * 220}" height="8" rx="4" fill="${SEV[top.sev]}"/></svg>`;
+        return `<div class="head">
+            <span class="pill" style="background:${SEV[top.sev]}">${top.sev}</span>
+            <h3>${top.title}</h3>
+          </div>
+          <div class="viz">
+            <div><div class="hint">Priority</div><div style="font-size:34px;font-weight:700">${top.pri}<small style="font-size:15px;color:var(--muted)">/100</small></div>${bar}</div>
+            <div class="legend"><div><span class="swatch" style="background:${SEV[top.sev]}"></span>${top.cat}</div></div>
+          </div>
+          <div class="detail"><p>${top.detail}</p>
+            ${rest.length ? `<div class="cards">${rest.map(r =>
+              `<div class="card"><div class="t"><span class="pill" style="background:${SEV[r.sev]};margin-right:6px">${r.sev}</span>${r.title}</div><div class="d">${r.detail}</div></div>`).join("")}</div>` : ""}
+          </div>`;
+      }
+
+      function renderHero() {
+        const items = notifications.filter(n => selected.has(n.id)).sort((a, b) => b.pri - a.pri);
+        document.getElementById("hero").innerHTML = items.length ? heroFor(items) : heroOverview();
+      }
+
+      feed.addEventListener("change", (e) => {
+        const id = e.target.getAttribute("data-id");
+        if (!id) return;
+        e.target.checked ? selected.add(id) : selected.delete(id);
+        renderHero();
+      });
+
+      renderHero();
+    </script>
+  </body>
+</html>
