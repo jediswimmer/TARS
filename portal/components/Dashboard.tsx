@@ -2,23 +2,13 @@
 
 import { useMemo, useState, type ReactNode } from "react";
 import type { HeadlineMetric, Notification, Role } from "@tars/contracts";
-import {
-  COMPLIANCE,
-  EXEC_METRICS,
-  EXEC_NARRATIVE,
-  NOTIFICATIONS,
-  RISK_SCORE,
-  ROLES,
-  SCAN_TIME,
-  SEVERITY_COLOR,
-  SEVERITY_COUNTS,
-  SEVERITY_TEXT_COLOR,
-  TECH_METRICS,
-  TECH_NARRATIVE,
-} from "../lib/sample";
+import { COMPLIANCE, EXEC_METRICS, EXEC_NARRATIVE, NOTIFICATIONS, RISK_SCORE, ROLES, SCAN_TIME, SEVERITY_COLOR, SEVERITY_COUNTS, SEVERITY_TEXT_COLOR, TECH, TECH_METRICS, TECH_NARRATIVE } from "../lib/sample";
 import { BrandMark } from "./BrandMark";
 import { RiskGauge, SeverityDonut } from "./Charts";
 import { Chat } from "./Chat";
+import { AttackChainGraph } from "./viz/AttackChainGraph";
+import { BlastRadiusCard } from "./viz/BlastRadiusCard";
+import { TopologyMap } from "./viz/TopologyMap";
 
 type View = "executive" | "technical";
 
@@ -433,6 +423,19 @@ export function Dashboard() {
       <div className="card mb-4 max-w-[75ch] rounded-xl p-4 text-[15px] leading-[1.7] text-(--ink)">
         {narrative}
       </div>
+
+      {/* Threat surface — raw topology is gated by role, not by the view toggle:
+          business_owner/auditor get the aggregate blast-radius card instead. */}
+      <section className="mb-4">
+        {TECH.includes(role) ? (
+          <div className="grid items-start gap-4 md:grid-cols-2">
+            <AttackChainGraph />
+            <TopologyMap />
+          </div>
+        ) : (
+          <BlastRadiusCard />
+        )}
+      </section>
 
       {/* Feed + drill-down */}
       <div className="grid items-start gap-4 md:grid-cols-[360px_1fr]">

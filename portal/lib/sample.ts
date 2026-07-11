@@ -59,7 +59,14 @@ export const COMPLIANCE: { framework: string; coverage: number; gaps: string[] }
 export const SCAN_TIME = "2026-07-11T02:00:00.000Z";
 const now = SCAN_TIME;
 const ALL: Role[] = ["business_owner", "it_director", "security_analyst", "auditor", "msp_admin"];
-const TECH: Role[] = ["it_director", "security_analyst", "msp_admin"];
+
+/**
+ * Roles allowed to see raw technical detail (mirrors `DEFAULT_PURVIEWS[role].
+ * seeRawEvidence` in @tars/contracts, kept portal-local so no workspace runtime
+ * code is bundled). The D3 raw-topology viz (attack-chain, topology map) gate on
+ * this — business_owner and auditor get the aggregate BlastRadiusCard instead.
+ */
+export const TECH: Role[] = ["it_director", "security_analyst", "msp_admin"];
 
 export const NOTIFICATIONS: Notification[] = [
   { id: "n1", createdAt: now, severity: "critical", priority: 96, title: "Full tenant-takeover path is live", summary: "Internet-exposed RDP plus an MFA-less Global Admin chain into complete tenant compromise. Fix both this week.", category: "Identity", sourceArtifactId: "reviewed_findings_demo", sourceAgentId: "notification-agent", visibleToRoles: ALL, status: "new" },

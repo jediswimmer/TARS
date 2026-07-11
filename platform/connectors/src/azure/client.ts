@@ -23,6 +23,7 @@ import type {
   NetworkExposure,
   PolicyState,
 } from "./types.js";
+import { AzureEnvironmentSnapshotSchema, SNAPSHOT_VERSION } from "./types.js";
 import {
   NSG_EXPOSURES_KQL,
   RESOURCES_KQL,
@@ -49,7 +50,11 @@ export class FixtureAzureConnector implements AzureConnector {
   constructor(private readonly fixturePath = join(here, "fixtures", "contoso-financial.json")) {}
 
   async capture(): Promise<AzureEnvironmentSnapshot> {
-    return JSON.parse(await readFile(this.fixturePath, "utf8")) as AzureEnvironmentSnapshot;
+    // Validate on read: a malformed fixture fails here with a Zod path, rather
+    // than surfacing as `undefined` deep inside the scanner. `snapshotVersion`
+    // defaults for older fixtures that predate the field.
+    const raw = JSON.parse(await readFile(this.fixturePath, "utf8"));
+    return AzureEnvironmentSnapshotSchema.parse(raw);
   }
 }
 
@@ -129,6 +134,7 @@ export class LiveAzureConnector implements AzureConnector {
       const policyStates = await this.capturePolicyStates(credential, subscriptionIds);
 
       return {
+        snapshotVersion: SNAPSHOT_VERSION,
         tenantId,
         capturedAt: new Date().toISOString(),
         subscriptions,

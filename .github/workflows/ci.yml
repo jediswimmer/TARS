@@ -11,8 +11,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # pnpm version comes from the "packageManager" field in package.json.
-      # (Setting `version` here too makes action-setup@v4 fail with ERR_PNPM_BAD_PM_VERSION.)
+      # pnpm version comes from package.json's "packageManager" field — the
+      # action errors if both that and an explicit `version` are set.
       - uses: pnpm/action-setup@v4
 
       - uses: actions/setup-node@v4
