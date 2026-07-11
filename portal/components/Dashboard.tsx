@@ -9,8 +9,10 @@ import {
   NOTIFICATIONS,
   RISK_SCORE,
   ROLES,
+  SCAN_TIME,
   SEVERITY_COLOR,
   SEVERITY_COUNTS,
+  SEVERITY_TEXT_COLOR,
   TECH_METRICS,
   TECH_NARRATIVE,
 } from "../lib/sample";
@@ -19,6 +21,41 @@ import { RiskGauge, SeverityDonut } from "./Charts";
 import { Chat } from "./Chat";
 
 type View = "executive" | "technical";
+
+/** Per-role view capabilities — technical is a role capability, not a free toggle. */
+const ROLE_CAPS: Record<
+  Role,
+  { canViewTechnical: boolean; defaultView: View }
+> = {
+  business_owner: { canViewTechnical: false, defaultView: "executive" },
+  auditor: { canViewTechnical: false, defaultView: "executive" },
+  it_director: { canViewTechnical: true, defaultView: "executive" },
+  security_analyst: { canViewTechnical: true, defaultView: "technical" },
+  // Contract roles not in the portal switcher — keep capabilities defined for type completeness.
+  msp_admin: { canViewTechnical: true, defaultView: "technical" },
+  read_only: { canViewTechnical: false, defaultView: "executive" },
+};
+
+function permittedViews(role: Role): View[] {
+  return ROLE_CAPS[role].canViewTechnical ? ["executive", "technical"] : ["executive"];
+}
+
+function clampView(role: Role, view: View): View {
+  const allowed = permittedViews(role);
+  return allowed.includes(view) ? view : ROLE_CAPS[role].defaultView;
+}
+
+/** Format SCAN_TIME for the header "as of" line (fixed fixture, no Date.now). */
+function formatScanTime(iso: string): string {
+  const d = new Date(iso);
+  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const mon = months[d.getUTCMonth()];
+  const day = d.getUTCDate();
+  const year = d.getUTCFullYear();
+  const hh = String(d.getUTCHours()).padStart(2, "0");
+  const mm = String(d.getUTCMinutes()).padStart(2, "0");
+  return `${mon} ${day}, ${year} ${hh}:${mm} UTC`;
+}
 
 const focusRing =
   "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--accent)";
@@ -35,18 +72,20 @@ function riskSeverityColor(score: number): string {
 }
 
 /**
- * Severity pills: tinted chip (severity color at ~14% alpha + severity text).
+ * Severity pills: tinted chip (severity color at ~14% alpha + text-safe severity text).
  * White-on-filled fails for medium (#ffb224) and is marginal for low/info;
  * tinted style used for ALL severities so contrast and vocabulary stay consistent.
+ * Text uses --color-*-text tokens (≥4.5:1 on the 14% tint composite).
  */
 function Pill({ severity }: { severity: Notification["severity"] }) {
-  const color = SEVERITY_COLOR[severity];
+  const fill = SEVERITY_COLOR[severity];
+  const text = SEVERITY_TEXT_COLOR[severity];
   return (
     <span
       className="inline-block rounded-full px-1.5 py-0.5 text-[10px] font-bold tracking-[0.04em] uppercase"
       style={{
-        color,
-        background: `color-mix(in srgb, ${color} 14%, transparent)`,
+        color: text,
+        background: `color-mix(in srgb, ${fill} 14%, transparent)`,
       }}
     >
       {severity}
@@ -273,8 +312,13 @@ function EmptyConstellation({ size = 148 }: { size?: number }) {
 
 export function Dashboard() {
   const [role, setRole] = useState<Role>("business_owner");
-  const [view, setView] = useState<View>("executive");
+  const [view, setView] = useState<View>(() => ROLE_CAPS.business_owner.defaultView);
   const [selected, setSelected] = useState<Set<string>>(new Set());
+
+  // Effective view is always clamped to the current role's permitted set — by construction
+  // business_owner / auditor never render TECH_METRICS / TECH_NARRATIVE.
+  const effectiveView = clampView(role, view);
+  const views = permittedViews(role);
 
   const visible = useMemo(
     () => NOTIFICATIONS.filter((n) => n.visibleToRoles.includes(role)).sort((a, b) => b.priority - a.priority),
@@ -284,8 +328,8 @@ export function Dashboard() {
     () => visible.filter((n) => selected.has(n.id)).sort((a, b) => b.priority - a.priority),
     [visible, selected],
   );
-  const metrics = view === "executive" ? EXEC_METRICS : TECH_METRICS;
-  const narrative = view === "executive" ? EXEC_NARRATIVE : TECH_NARRATIVE;
+  const metrics = effectiveView === "executive" ? EXEC_METRICS : TECH_METRICS;
+  const narrative = effectiveView === "executive" ? EXEC_NARRATIVE : TECH_NARRATIVE;
 
   const toggle = (id: string) =>
     setSelected((prev) => {
@@ -312,32 +356,35 @@ export function Dashboard() {
           </div>
           <div className="telemetry mt-1.5 text-[12px] text-(--muted)">
             Contoso Financial · Production (sub-prod-01) · scanned nightly by the Claude fleet
+            · as of {formatScanTime(SCAN_TIME)}
           </div>
         </div>
-        <div
-          className="inline-flex rounded-[10px] border border-(--line) bg-(--panel) p-0.5"
-          role="group"
-          aria-label="View mode"
-        >
-          {(["executive", "technical"] as View[]).map((v) => {
-            const active = view === v;
-            return (
-              <button
-                key={v}
-                type="button"
-                aria-pressed={active}
-                onClick={() => setView(v)}
-                className={`min-h-10 rounded-[8px] px-3.5 text-sm capitalize ${transitionFast} ${focusRing} ${
-                  active
-                    ? "bg-(--accent) text-(--accent-contrast)"
-                    : "bg-transparent text-(--ink) hover:bg-[color-mix(in_srgb,var(--accent)_6%,transparent)]"
-                }`}
-              >
-                {v}
-              </button>
-            );
-          })}
-        </div>
+        {views.length > 1 && (
+          <div
+            className="inline-flex rounded-[10px] border border-(--line) bg-(--panel) p-0.5"
+            role="group"
+            aria-label="View mode"
+          >
+            {views.map((v) => {
+              const active = effectiveView === v;
+              return (
+                <button
+                  key={v}
+                  type="button"
+                  aria-pressed={active}
+                  onClick={() => setView(v)}
+                  className={`min-h-10 rounded-[8px] px-3.5 text-sm capitalize ${transitionFast} ${focusRing} ${
+                    active
+                      ? "bg-(--accent) text-(--accent-contrast)"
+                      : "bg-transparent text-(--ink) hover:bg-[color-mix(in_srgb,var(--accent)_6%,transparent)]"
+                  }`}
+                >
+                  {v}
+                </button>
+              );
+            })}
+          </div>
+        )}
       </header>
 
       {/* Role switcher (RBAC) */}
@@ -358,6 +405,7 @@ export function Dashboard() {
                 aria-pressed={active}
                 onClick={() => {
                   setRole(r.id);
+                  setView((prev) => clampView(r.id, prev));
                   setSelected(new Set());
                 }}
                 className={`min-h-10 rounded-[8px] px-3 text-sm ${transitionFast} ${focusRing} ${

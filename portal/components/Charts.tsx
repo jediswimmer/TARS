@@ -22,24 +22,48 @@ export function SeverityDonut({ counts }: { counts: Record<Severity, number> }) 
   const ariaLabel = `Severity distribution: ${total} findings — ${breakdown}`;
 
   return (
-    <div
-      className="relative size-[168px]"
-      role="img"
-      aria-label={ariaLabel}
-    >
-      <ResponsiveContainer>
-        <PieChart>
-          <Pie data={data} dataKey="value" nameKey="name" innerRadius={54} outerRadius={78} paddingAngle={2} stroke="none">
-            {data.map((d) => (
-              <Cell key={d.name} fill={d.fill} />
-            ))}
-          </Pie>
-        </PieChart>
-      </ResponsiveContainer>
-      <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center">
-        <div className="telemetry text-3xl font-bold leading-none text-(--ink)">{total}</div>
-        <div className="mt-1 text-xs text-(--muted)">findings</div>
+    <div className="flex flex-wrap items-center gap-4">
+      <div
+        className="relative size-[168px] shrink-0"
+        role="img"
+        aria-label={ariaLabel}
+      >
+        <ResponsiveContainer>
+          <PieChart>
+            <Pie
+              data={data}
+              dataKey="value"
+              nameKey="name"
+              innerRadius={54}
+              outerRadius={78}
+              paddingAngle={2}
+              stroke="none"
+              isAnimationActive={false}
+            >
+              {data.map((d) => (
+                <Cell key={d.name} fill={d.fill} />
+              ))}
+            </Pie>
+          </PieChart>
+        </ResponsiveContainer>
+        <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center">
+          <div className="telemetry text-3xl font-bold leading-none text-(--ink)">{total}</div>
+          <div className="mt-1 text-xs text-(--muted)">findings</div>
+        </div>
       </div>
+      {/* Compact legend — swatch + name + count; not color-alone. */}
+      <ul className="flex min-w-0 flex-col gap-1.5" aria-hidden>
+        {data.map((d) => (
+          <li key={d.name} className="flex items-center gap-2">
+            <span
+              className="size-2.5 shrink-0 rounded-[2px]"
+              style={{ background: d.fill }}
+            />
+            <span className="telemetry text-[11px] capitalize text-(--muted)">{d.name}</span>
+            <span className="telemetry text-[11px] tabular-nums text-(--ink)">{d.value}</span>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
@@ -57,7 +81,7 @@ export function RiskGauge({ score }: { score: number }) {
       <ResponsiveContainer>
         <RadialBarChart innerRadius="72%" outerRadius="100%" data={data} startAngle={220} endAngle={-40}>
           <PolarAngleAxis type="number" domain={[0, 100]} angleAxisId={0} tick={false} />
-          <RadialBar dataKey="value" background={{ fill: "var(--line)" }} cornerRadius={8} />
+          <RadialBar dataKey="value" background={{ fill: "var(--line)" }} cornerRadius={8} isAnimationActive={false} />
         </RadialBarChart>
       </ResponsiveContainer>
       <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center">

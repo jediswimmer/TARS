@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { Role } from "@tars/contracts";
+import { ROLES } from "../lib/sample";
 
 type Msg = { who: "you" | "agent"; text: string };
 
@@ -17,6 +18,7 @@ export function Chat({ role }: { role: Role }) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [lastQuestion, setLastQuestion] = useState<string | null>(null);
+  const roleLabel = ROLES.find((r) => r.id === role)?.label ?? role;
 
   async function ask(questionOverride?: string) {
     const question = (questionOverride ?? q).trim();
@@ -57,7 +59,7 @@ export function Chat({ role }: { role: Role }) {
         className={`flex min-h-10 w-full items-center justify-between px-4 py-3 text-left ${focusRing}`}
       >
         <span className="telemetry text-[11px] font-medium tracking-[0.05em] text-(--muted) uppercase">
-          Customer service · answers scoped to your role ({role})
+          Customer service · answers scoped to your role ({roleLabel})
         </span>
         <span
           className="text-(--muted) transition-transform duration-[var(--dur-fast)] ease-[var(--ease-out)]"
@@ -116,7 +118,7 @@ export function Chat({ role }: { role: Role }) {
             )}
           </div>
           <p className="telemetry mb-2 text-[11px] tracking-[0.05em] text-(--muted) uppercase">
-            Scope · {role} only
+            Scope · {roleLabel} only
           </p>
           <div className="flex gap-2">
             <input

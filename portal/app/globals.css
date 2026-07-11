@@ -17,6 +17,13 @@
   --color-pos: #46a758;
   --color-neg: #e5484d;
 
+  /* Severity TEXT tokens — ≥4.5:1 on 14% tint over --bg / --panel (small text). */
+  --color-crit-text: #b3383c;
+  --color-high-text: #a04600;
+  --color-med-text: #7d5800;
+  --color-low-text: #246b32;
+  --color-info-text: #545b66;
+
   /* Light console — cool neutrals, faintly tinted toward the cobalt hue. */
   --bg: #f5f6f8;
   --panel: #ffffff;
@@ -71,6 +78,13 @@
     --accent-text: #7d96ff;
     --accent-contrast: #0d1016;
     --accent-glow: rgba(125, 150, 255, 0.22);
+
+    /* Severity TEXT — brighten crit/info so small text clears 4.5:1 on dark tints. */
+    --color-crit-text: #f56b70;
+    --color-high-text: #f76808;
+    --color-med-text: #ffb224;
+    --color-low-text: #46a758;
+    --color-info-text: #a8abb5;
 
     /* Layered Luminous Rule — dark theme: hairline rim + ambient depth + top light. */
     --shadow: 0 0 0 1px rgba(125, 150, 255, 0.06), 0 8px 24px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.04);
