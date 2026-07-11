@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState, type RefObject } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 /**
  * True only after the first client commit. Force-graph layouts run a synchronous
@@ -13,24 +13,25 @@ export function useMounted(): boolean {
   return mounted;
 }
 
-/** SSR-safe layout effect (falls back to useEffect on the server). */
-const useIsomorphicLayoutEffect = typeof window !== "undefined" ? useLayoutEffect : useEffect;
-
 export interface Size {
   width: number;
   height: number;
 }
 
 /**
- * Observe an element's size. Returns a ref to attach and the current {width,
- * height}; charts use the width to lay out responsively without a fixed viewBox.
+ * Observe an element's size. Returns a callback ref to attach and the current
+ * {width, height}. A callback ref (not a RefObject) so the observer re-attaches
+ * whenever the element remounts — e.g. after ChartFrame's table toggle swaps the
+ * chart out and back in; an effect with empty deps would keep watching the
+ * detached element and the chart would stay stuck on its skeleton.
  */
-export function useMeasure<T extends HTMLElement>(): [RefObject<T | null>, Size] {
-  const ref = useRef<T>(null);
+export function useMeasure<T extends HTMLElement>(): [(el: T | null) => void, Size] {
   const [size, setSize] = useState<Size>({ width: 0, height: 0 });
+  const observerRef = useRef<ResizeObserver | null>(null);
 
-  useIsomorphicLayoutEffect(() => {
-    const el = ref.current;
+  const ref = useCallback((el: T | null) => {
+    observerRef.current?.disconnect();
+    observerRef.current = null;
     if (!el) return;
     const observer = new ResizeObserver((entries) => {
       for (const entry of entries) {
@@ -39,7 +40,9 @@ export function useMeasure<T extends HTMLElement>(): [RefObject<T | null>, Size]
       }
     });
     observer.observe(el);
-    return () => observer.disconnect();
+    observerRef.current = observer;
+    const rect = el.getBoundingClientRect();
+    setSize({ width: rect.width, height: rect.height });
   }, []);
 
   return [ref, size];

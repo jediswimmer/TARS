@@ -2,9 +2,11 @@
 
 import { useMemo, useState } from "react";
 import type { Notification, Role } from "@tars/contracts";
-import { COMPLIANCE, EXEC_METRICS, EXEC_NARRATIVE, NOTIFICATIONS, RISK_SCORE, ROLES, SEVERITY_COLOR, SEVERITY_COUNTS, TECH_METRICS, TECH_NARRATIVE } from "../lib/sample";
+import { COMPLIANCE, EXEC_METRICS, EXEC_NARRATIVE, NOTIFICATIONS, RISK_SCORE, ROLES, SEVERITY_COLOR, SEVERITY_COUNTS, TECH, TECH_METRICS, TECH_NARRATIVE } from "../lib/sample";
 import { RiskGauge, SeverityDonut } from "./Charts";
 import { Chat } from "./Chat";
+import { AttackChainGraph } from "./viz/AttackChainGraph";
+import { BlastRadiusCard } from "./viz/BlastRadiusCard";
 
 type View = "executive" | "technical";
 
@@ -82,6 +84,12 @@ export function Dashboard() {
 
       {/* Narrative */}
       <div className="card mb-4 rounded-xl p-4 text-[15px] leading-relaxed">{narrative}</div>
+
+      {/* Threat surface — raw topology is gated by role, not by the view toggle:
+          business_owner/auditor get the aggregate blast-radius card instead. */}
+      <section className="mb-4">
+        {TECH.includes(role) ? <AttackChainGraph /> : <BlastRadiusCard />}
+      </section>
 
       {/* Feed + drill-down */}
       <div className="grid items-start gap-4 md:grid-cols-[360px_1fr]">
