@@ -27,15 +27,35 @@ are attributable to the model (and its prompting), not to divergent plumbing.
 
 ## Running it
 
+```bash
+pnpm bakeoff                              # offline fixture + canned LLM (no keys)
+TARS_MODE=live pnpm bakeoff               # real models; Claude judges reportQuality
+BAKEOFF_PROVIDERS=claude,sol pnpm bakeoff # subset of providers
 ```
-# same pipeline, three providers, identical input
+
+Under the hood:
+
+```
+# same pipeline, three providers, identical Contoso fixture
 runPipeline(AZURE_SECURITY_PIPELINE, { provider: "claude", … })
 runPipeline(AZURE_SECURITY_PIPELINE, { provider: "grok",   … })
 runPipeline(AZURE_SECURITY_PIPELINE, { provider: "sol",    … })
 
-# then score + rank
-compareRuns([claudeRun, grokRun, solRun], { baseline, judgeScores })
+# then score + rank (golden baseline + optional LLM judge)
+compareRuns([claudeRun, grokRun, solRun], { baseline: CONTOSO_GOLDEN, judgeScores })
 ```
+
+Published outputs land in `runs/bakeoff/`:
+
+| File | Contents |
+|---|---|
+| `<timestamp>-ranking.json` | Raw `RunScore[]`, mode, providers, baseline, judge model |
+| `<timestamp>-report.md` | Head-to-head ranking table, dimension breakdown, caveats |
+
+Offline mode uses neutral `reportQuality` scores (0.5) so the bake-off stays
+credential-free. Live mode calls a blinded Claude judge over each provider's
+`security_report` excerpt; when Claude is also a contestant, treat that dimension
+as a known fairness caveat (labels are blinded, judge family matches one entry).
 
 ## The rubric (`@tars/evals`)
 
@@ -43,18 +63,23 @@ compareRuns([claudeRun, grokRun, solRun], { baseline, judgeScores })
 |---|---|---|
 | Finding coverage vs. baseline | 0.25 | structural |
 | Low false-positive rate | 0.20 | structural (from reviewer output) |
-| Severity accuracy vs. baseline | 0.15 | structural |
-| Report clarity & usefulness | 0.20 | neutral LLM judge |
+| Severity accuracy vs. baseline | 0.15 | structural (per-finding: 1.0 / 0.5 / 0.0) |
+| Report clarity & usefulness | 0.20 | neutral LLM judge (`judgeReportQuality`) |
 | Cost efficiency | 0.10 | structural (from `usage.costUsd`) |
 | Latency | 0.10 | structural (from `usage.latencyMs`) |
 
 Structural dimensions are computed from the artifacts + the `LlmUsage` stamped on
-every model call. `reportQuality` uses an **LLM-as-judge** with a neutral model
-(a Phase-2 hook: `compareRuns(..., { judgeScores })`).
+every model call. `reportQuality` uses an **LLM-as-judge** (`judgeReportQuality`
+in `@tars/evals`) with an injected `complete` callback; the bake-off wires Claude
+and passes the resulting `judgeScores` into `compareRuns`.
 
 Cost and latency are normalized relative to the best run in the set (cheapest /
 fastest = 1.0). The composite is the weighted sum; `compareRuns` returns the
 ranking.
+
+The Contoso ground truth lives in
+`platform/evals/src/fixtures/contoso-golden.json` and is exported as
+`CONTOSO_GOLDEN`.
 
 ## Fairness rules
 

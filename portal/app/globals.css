@@ -4,9 +4,13 @@
   TARS "Flight Director's Console" foundation tokens.
 
   Two-register system: severity colors are semantic constants shared across
-  both themes; surfaces, ink, and the electric-cobalt accent flip with the
-  OS theme (system-follow via prefers-color-scheme — no manual toggle).
+  both themes; surfaces, ink, and the electric-cobalt accent flip when
+  <html> has class `dark` (manual Light/Dark/System toggle + bootstrap script).
 */
+
+/* Tailwind `dark:` utilities follow the same class as the token flip. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   /* Severity — sacred values, consumed by charts, pills, and contracts. */
   --color-crit: #e5484d;
@@ -60,35 +64,37 @@
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --dur-fast: 150ms;
   --dur-med: 220ms;
+
+  color-scheme: light;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    /* Mission-night console. */
-    --bg: #0d1016;
-    --panel: #151a21;
-    --panel-elevated: #1a2029;
-    --ink: #e8ebf0;
-    --muted: #9aa1ac;
-    --line: #242a33;
+html.dark {
+  /* Mission-night console. */
+  --bg: #0d1016;
+  --panel: #151a21;
+  --panel-elevated: #1a2029;
+  --ink: #e8ebf0;
+  --muted: #9aa1ac;
+  --line: #242a33;
 
-    /* Luminous cobalt — brighter so it reads as light, not pigment. */
-    --accent: #7d96ff;
-    --accent-hover: #93a8ff;
-    --accent-text: #7d96ff;
-    --accent-contrast: #0d1016;
-    --accent-glow: rgba(125, 150, 255, 0.22);
+  /* Luminous cobalt — brighter so it reads as light, not pigment. */
+  --accent: #7d96ff;
+  --accent-hover: #93a8ff;
+  --accent-text: #7d96ff;
+  --accent-contrast: #0d1016;
+  --accent-glow: rgba(125, 150, 255, 0.22);
 
-    /* Severity TEXT — brighten crit/info so small text clears 4.5:1 on dark tints. */
-    --color-crit-text: #f56b70;
-    --color-high-text: #f76808;
-    --color-med-text: #ffb224;
-    --color-low-text: #46a758;
-    --color-info-text: #a8abb5;
+  /* Severity TEXT — brighten crit/info so small text clears 4.5:1 on dark tints. */
+  --color-crit-text: #f56b70;
+  --color-high-text: #f76808;
+  --color-med-text: #ffb224;
+  --color-low-text: #46a758;
+  --color-info-text: #a8abb5;
 
-    /* Layered Luminous Rule — dark theme: hairline rim + ambient depth + top light. */
-    --shadow: 0 0 0 1px rgba(125, 150, 255, 0.06), 0 8px 24px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.04);
-  }
+  /* Layered Luminous Rule — dark theme: hairline rim + ambient depth + top light. */
+  --shadow: 0 0 0 1px rgba(125, 150, 255, 0.06), 0 8px 24px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+
+  color-scheme: dark;
 }
 
 /*
@@ -125,6 +131,71 @@ body {
   .telemetry {
     font-family: var(--font-mono);
     font-variant-numeric: tabular-nums;
+  }
+
+  /*
+    Attack-chain stage surface: same --panel base as the card, with
+    atmosphere (wash + vignette + scanlines + grain) — not a contrasting inset plate.
+  */
+  .viz-stage {
+    background-color: transparent;
+    background-image:
+      /* Soft center wash */
+      radial-gradient(
+        ellipse 85% 70% at 50% 38%,
+        color-mix(in srgb, var(--accent) 10%, transparent),
+        transparent 72%
+      ),
+      /* Edge vignette — pulls focus inward without framing a plate */
+      radial-gradient(
+        ellipse 120% 100% at 50% 50%,
+        transparent 42%,
+        color-mix(in srgb, var(--ink) 6%, transparent) 100%
+      ),
+      /* CRT-style scanlines */
+      repeating-linear-gradient(
+        to bottom,
+        transparent 0,
+        transparent 2px,
+        color-mix(in srgb, var(--ink) 7%, transparent) 2px,
+        color-mix(in srgb, var(--ink) 7%, transparent) 3px
+      );
+    background-size: auto, auto, 100% 3px;
+    background-position: center, center, 0 0;
+  }
+
+  html.dark .viz-stage {
+    background-image:
+      radial-gradient(
+        ellipse 85% 70% at 50% 38%,
+        color-mix(in srgb, var(--accent) 10%, transparent),
+        transparent 72%
+      ),
+      radial-gradient(
+        ellipse 120% 100% at 50% 50%,
+        transparent 42%,
+        color-mix(in srgb, var(--ink) 8%, transparent) 100%
+      ),
+      repeating-linear-gradient(
+        to bottom,
+        transparent 0,
+        transparent 2px,
+        color-mix(in srgb, var(--ink) 12%, transparent) 2px,
+        color-mix(in srgb, var(--ink) 12%, transparent) 3px
+      );
+  }
+
+  .viz-stage-grain {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.22;
+    mix-blend-mode: overlay;
+  }
+
+  html.dark .viz-stage-grain {
+    opacity: 0.32;
+    mix-blend-mode: soft-light;
   }
 }
 

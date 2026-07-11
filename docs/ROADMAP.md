@@ -25,13 +25,15 @@ How we execute, in order. Each phase is shippable on its own.
 - **Tests + CI**: contract schema tests, eval-ranking test, pipeline-lineage test;
   a CI workflow that typechecks, tests, smoke-runs the pipeline, and builds the portal.
 
-## Phase 2 — Live tenant & real comparison (next)
+## Phase 2 — Live tenant & real comparison (in progress)
 
+- ~~Tune structural scoring for the Contoso fixture~~ — shared `CONTOSO_GOLDEN`
+  baseline, real per-finding `severityAccuracy`, LLM-as-judge for `reportQuality`,
+  and published bake-off reports under `runs/bakeoff/`.
 - Run the pipeline live against a real Azure tenant via `LiveAzureConnector` (wire
-  the read-only service principal; the SDK calls are implemented).
-- Tune the six prompts per model; add golden-baseline scoring for the fixture.
-- Implement the LLM-judge for `reportQuality` (`compareRuns(..., { judgeScores })`)
-  and publish the first head-to-head comparison report.
+  the read-only service principal; the SDK calls are implemented). **Deferred** —
+  fixture-first evals shipped first.
+- Per-model prompt packs (whole-approach bake-off arm) still pending.
 - Wire a real scheduler (Azure Container Apps Jobs or Inngest) off the agents'
   `schedule` fields.
 

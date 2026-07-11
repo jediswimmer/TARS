@@ -19,6 +19,11 @@ import {
 import { BrandMark } from "./BrandMark";
 import { RiskGauge, SeverityDonut } from "./Charts";
 import { Chat } from "./Chat";
+import { ThemeToggle } from "./ThemeToggle";
+import { AttackChainGraph } from "./viz/AttackChainGraph";
+import { BlastRadiusCard } from "./viz/BlastRadiusCard";
+import { SAMPLE_FINDING_META, SAMPLE_REVIEWS } from "../lib/sample-viz";
+import { buildAttackChain, summarizeBlastRadius } from "../lib/viz-selectors";
 
 type View = "executive" | "technical";
 
@@ -331,6 +336,12 @@ export function Dashboard() {
   const metrics = effectiveView === "executive" ? EXEC_METRICS : TECH_METRICS;
   const narrative = effectiveView === "executive" ? EXEC_NARRATIVE : TECH_NARRATIVE;
 
+  const attackChain = useMemo(
+    () => buildAttackChain(SAMPLE_REVIEWS, SAMPLE_FINDING_META),
+    [],
+  );
+  const blastRadius = useMemo(() => summarizeBlastRadius(attackChain), [attackChain]);
+
   const toggle = (id: string) =>
     setSelected((prev) => {
       const next = new Set(prev);
@@ -344,8 +355,8 @@ export function Dashboard() {
   return (
     <div className="mx-auto max-w-6xl px-6 py-6">
       {/* Header */}
-      <header className="mb-5 flex flex-wrap items-end justify-between gap-4">
-        <div className="min-w-0">
+      <header className="mb-5 flex items-end justify-between gap-4">
+        <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-3">
             <span className="text-(--accent-text)">
               <BrandMark withWordmark size={24} />
@@ -354,72 +365,81 @@ export function Dashboard() {
               Tactical Analysis &amp; Reporting System
             </span>
           </div>
-          <div className="telemetry mt-1.5 text-[12px] text-(--muted)">
+          <div className="telemetry mt-1.5 truncate text-[12px] text-(--muted)">
             Contoso Financial · Production (sub-prod-01) · scanned nightly by the Claude fleet
             · as of {formatScanTime(SCAN_TIME)}
           </div>
         </div>
-        {views.length > 1 && (
+        <div className="shrink-0">
+          <ThemeToggle />
+        </div>
+      </header>
+
+      {/* Role switcher (RBAC) + view mode when the role permits technical */}
+      <div className="card mb-4 flex flex-wrap items-center gap-3 rounded-xl p-2">
+        <div className="flex min-w-0 flex-wrap items-center gap-3">
+          <TelemetryLabel className="px-2">Viewing as</TelemetryLabel>
           <div
-            className="inline-flex rounded-[10px] border border-(--line) bg-(--panel) p-0.5"
+            className="inline-flex flex-nowrap rounded-[10px] border border-(--line) bg-(--panel) p-0.5"
             role="group"
-            aria-label="View mode"
+            aria-label="Role"
           >
-            {views.map((v) => {
-              const active = effectiveView === v;
+            {ROLES.map((r) => {
+              const active = role === r.id;
               return (
                 <button
-                  key={v}
+                  key={r.id}
                   type="button"
+                  title={r.blurb}
                   aria-pressed={active}
-                  onClick={() => setView(v)}
-                  className={`min-h-10 rounded-[8px] px-3.5 text-sm capitalize ${transitionFast} ${focusRing} ${
+                  onClick={() => {
+                    setRole(r.id);
+                    setView((prev) => clampView(r.id, prev));
+                    setSelected(new Set());
+                  }}
+                  className={`min-h-10 shrink-0 rounded-[8px] px-3 text-sm whitespace-nowrap ${transitionFast} ${focusRing} ${
                     active
                       ? "bg-(--accent) text-(--accent-contrast)"
                       : "bg-transparent text-(--ink) hover:bg-[color-mix(in_srgb,var(--accent)_6%,transparent)]"
                   }`}
                 >
-                  {v}
+                  {r.label}
                 </button>
               );
             })}
           </div>
-        )}
-      </header>
-
-      {/* Role switcher (RBAC) */}
-      <div className="card mb-4 flex flex-wrap items-center gap-3 rounded-xl p-2">
-        <TelemetryLabel className="px-2">Viewing as</TelemetryLabel>
-        <div
-          className="inline-flex flex-wrap rounded-[10px] border border-(--line) bg-(--panel) p-0.5"
-          role="group"
-          aria-label="Role"
-        >
-          {ROLES.map((r) => {
-            const active = role === r.id;
-            return (
-              <button
-                key={r.id}
-                type="button"
-                title={r.blurb}
-                aria-pressed={active}
-                onClick={() => {
-                  setRole(r.id);
-                  setView((prev) => clampView(r.id, prev));
-                  setSelected(new Set());
-                }}
-                className={`min-h-10 rounded-[8px] px-3 text-sm ${transitionFast} ${focusRing} ${
-                  active
-                    ? "bg-(--accent) text-(--accent-contrast)"
-                    : "bg-transparent text-(--ink) hover:bg-[color-mix(in_srgb,var(--accent)_6%,transparent)]"
-                }`}
-              >
-                {r.label}
-              </button>
-            );
-          })}
         </div>
-        <span className="ml-auto px-2 text-xs text-(--muted)">{ROLES.find((r) => r.id === role)?.blurb}</span>
+        <div className="ml-auto flex flex-nowrap items-center gap-3">
+          {views.length > 1 && (
+            <div
+              className="inline-flex shrink-0 rounded-[10px] border border-(--line) bg-(--panel) p-0.5"
+              role="group"
+              aria-label="View mode"
+            >
+              {views.map((v) => {
+                const active = effectiveView === v;
+                return (
+                  <button
+                    key={v}
+                    type="button"
+                    aria-pressed={active}
+                    onClick={() => setView(v)}
+                    className={`min-h-10 rounded-[8px] px-3.5 text-sm capitalize whitespace-nowrap ${transitionFast} ${focusRing} ${
+                      active
+                        ? "bg-(--accent) text-(--accent-contrast)"
+                        : "bg-transparent text-(--ink) hover:bg-[color-mix(in_srgb,var(--accent)_6%,transparent)]"
+                    }`}
+                  >
+                    {v}
+                  </button>
+                );
+              })}
+            </div>
+          )}
+          <span className="hidden px-2 text-xs text-(--muted) lg:inline">
+            {ROLES.find((r) => r.id === role)?.blurb}
+          </span>
+        </div>
       </div>
 
       {/* KPI band — differentiated micro-viz per tile */}
@@ -432,6 +452,15 @@ export function Dashboard() {
       {/* Executive / technical narrative */}
       <div className="card mb-4 max-w-[75ch] rounded-xl p-4 text-[15px] leading-[1.7] text-(--ink)">
         {narrative}
+      </div>
+
+      {/* D3 threat surface — RBAC: graph only on technical view; blast radius on executive */}
+      <div className="mb-4">
+        {effectiveView === "technical" ? (
+          <AttackChainGraph nodes={attackChain.nodes} links={attackChain.links} />
+        ) : (
+          <BlastRadiusCard summary={blastRadius} />
+        )}
       </div>
 
       {/* Feed + drill-down */}

@@ -1,0 +1,7 @@
+{
+  "findings": [
+    { "title": "RDP (3389) exposed to the internet", "severity": "critical" },
+    { "title": "Global Administrator account has no MFA", "severity": "critical" },
+    { "title": "Storage account allows public blob access", "severity": "high" }
+  ]
+}

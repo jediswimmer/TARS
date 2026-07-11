@@ -2,3 +2,5 @@
 // compareRuns() to rank them on the shared rubric.
 export * from "./rubric.js";
 export * from "./compare.js";
+export * from "./baseline.js";
+export * from "./judge.js";
