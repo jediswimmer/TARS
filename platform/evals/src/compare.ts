@@ -77,7 +77,7 @@ export function coverage(run: ProviderRun, baseline?: Baseline): number {
  */
 export function severityAccuracy(run: ProviderRun, baseline?: Baseline): number {
   if (!baseline || baseline.findings.length === 0) return 0.5;
-  const scores = baseline.findings.map((b) => {
+  const scores: number[] = baseline.findings.map((b) => {
     const match = findMatch(run.scan.findings, b);
     if (!match) return 0;
     return match.severity === b.severity ? 1 : 0.5;
