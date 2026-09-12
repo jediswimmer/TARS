@@ -72,7 +72,7 @@ export async function judgeReportQuality(
   inputs: JudgeInput[],
   complete: JudgeComplete,
 ): Promise<Record<ProviderId, number>> {
-  if (inputs.length === 0) return {};
+  if (inputs.length === 0) return {} as Record<ProviderId, number>;
   if (inputs.length > BLIND_LABELS.length) {
     throw new Error(`Judge supports at most ${BLIND_LABELS.length} reports per call`);
   }
